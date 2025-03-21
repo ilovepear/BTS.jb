@@ -11,9 +11,11 @@ Oodrive est une entreprise spécialisée dans les solutions de stockage sécuris
 
 Les produits d’Oodrive couvrent plusieurs besoins :
 
-    Stockage et partage sécurisé : des solutions cloud garantissant la confidentialité des données.
-    Signature électronique : facilitation de la validation des documents en toute légalité.
-    Sauvegarde et continuité d’activité : protection contre les pertes de données et les cyberattaques.
+_ Stockage et partage sécurisé : des solutions cloud garantissant la confidentialité des données.
+    
+_ Signature électronique : facilitation de la validation des documents en toute légalité.
+
+_ Sauvegarde et continuité d’activité : protection contre les pertes de données et les cyberattaques.
 
 Travailler chez Oodrive m’a permis de me familiariser avec les enjeux du cloud computing et de la cybersécurité, deux éléments cruciaux dans la gestion des infrastructures modernes.
 ## Electra : Révolutionner la recharge des véhicules électriques
