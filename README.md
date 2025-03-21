@@ -21,9 +21,8 @@ Travailler chez Oodrive m’a permis de me familiariser avec les enjeux du cloud
 Electra est une start-up française qui connaît une croissance fulgurante dans le domaine des bornes de recharge rapide pour voitures électriques. Son ambition est de faciliter l’adoption des véhicules électriques en proposant un réseau de bornes ultra-performantes, accessibles et simples d’utilisation.
 
 L’entreprise se distingue par plusieurs éléments :
-
-    Des bornes à haute puissance (150-300 kW) permettant une recharge en moins de 30 minutes.
-    Un déploiement massif en France et en Europe, avec une expansion rapide du réseau.
-    Une approche centrée sur l’utilisateur, avec une application intuitive pour localiser et réserver les bornes.
+_ Des bornes à haute puissance (150-300 kW) permettant une recharge en moins de 30 minutes.
+_ Un déploiement massif en France et en Europe, avec une expansion rapide du réseau.
+_ Une approche centrée sur l’utilisateur, avec une application intuitive pour localiser et réserver les bornes.
 
 Chez Electra, j’ai pu travailler sur la gestion des infrastructures IT internes, la sécurisation des accès aux données et le support informatique pour les équipes techniques.
