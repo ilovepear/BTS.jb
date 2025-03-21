@@ -1,33 +1,62 @@
 # BTS.jb
 Ce repo est consacré à ma formation en BTS SIO
-Présentation
 
-Je m'appelle Jean-Baptiste, et je suis en reconversion professionnelle après une première expérience en école de commerce. Passionné par les nouvelles technologies et l’univers de l’informatique, j’ai choisi de m’orienter vers le domaine de l’administration des systèmes et des réseaux à travers un BTS SIO option SISR.
+## 👤 Présentation
 
-Dans le cadre de ma formation, j’ai eu l’opportunité de réaliser mon alternance en deux temps, au sein de deux entreprises aux expertises bien différentes :
-## Oodrive : Leader français de la gestion des données sécurisées
+Je m'appelle **Jean-Baptiste**, et je suis en reconversion professionnelle après une première expérience en **école de commerce**. Passionné par les **nouvelles technologies** et l’univers de l’informatique, j’ai choisi de m’orienter vers l’**IT** en intégrant un **BTS SIO - Option SISR**.
+dans le but de devenir **responsable informatique**
+Dans le cadre de ma formation, j’ai eu l’opportunité d’effectuer mon alternance en **deux temps**, dans des entreprises aux approches technologiques très différentes :
 
-Oodrive est une entreprise spécialisée dans les solutions de stockage sécurisé, de collaboration et de gestion de données en cloud. Son objectif est de permettre aux entreprises et aux administrations de travailler en toute sécurité tout en garantissant la conformité aux normes européennes (RGPD, ISO 27001, SecNumCloud, etc.).
+- **🏢 Oodrive** : Leader français de la gestion **sécurisée des données et du cloud computing**  
+- **⚡ Electra** : Start-up en pleine croissance, spécialisée dans les **bornes de recharge rapide pour véhicules électriques**  
 
-Les produits d’Oodrive couvrent plusieurs besoins :
+Ce repository regroupe mes expériences, compétences et projets réalisés en lien avec ces environnements.
 
-_ Stockage et partage sécurisé : des solutions cloud garantissant la confidentialité des données.
-    
-_ Signature électronique : facilitation de la validation des documents en toute légalité.
+---
 
-_ Sauvegarde et continuité d’activité : protection contre les pertes de données et les cyberattaques.
+## 🏢 Oodrive - Cloud & Sécurité des Données  
 
-Travailler chez Oodrive m’a permis de me familiariser avec les enjeux du cloud computing et de la cybersécurité, deux éléments cruciaux dans la gestion des infrastructures modernes.
-## Electra : Révolutionner la recharge des véhicules électriques
+### 📌 Présentation  
+[Oodrive](https://www.oodrive.com/) est une entreprise spécialisée dans les **solutions de stockage sécurisé, de collaboration et de gestion des données en cloud**. Son objectif est de permettre aux entreprises et administrations de travailler en toute sécurité tout en respectant les **normes européennes** (**RGPD, ISO 27001, SecNumCloud**).
 
-Electra est une start-up française qui connaît une croissance fulgurante dans le domaine des bornes de recharge rapide pour voitures électriques. Son ambition est de faciliter l’adoption des véhicules électriques en proposant un réseau de bornes ultra-performantes, accessibles et simples d’utilisation.
+**Les solutions Oodrive incluent :**  
+- ☁️ **Stockage et partage sécurisé** des données  
+- ✍️ **Signature électronique** légale et sécurisée  
+- 🔄 **Sauvegarde et continuité d’activité** pour éviter les pertes de données et cyberattaques  
 
-L’entreprise se distingue par plusieurs éléments :
+### 🔧 Stack technologique  
+- **IDP** : Active Directory (AD)  
+- **Infrastructure** : Serveurs **on-premises** (DHCP, VPN, Firewall, RODC)  
+- **Gestion IT** : Microsoft 365 Tenant, Easy Vista (ticketing), GLPI  
+- **Déploiement** : Microsoft Deployment Toolkit (MDT)  
+- **Collaboration** : Confluence, Teams  
 
-_ Des bornes à haute puissance (150-300 kW) permettant une recharge en moins de 30 minutes.
+### 🎯 Missions et compétences développées  
+- 🔐 **Gestion des accès et des identités** (Active Directory, politiques de sécurité)  
+- 🛠 **Administration des serveurs et services réseaux** (DHCP, VPN, pare-feu)  
+- ⚙️ **Automatisation IT** via **PowerShell**  
+- 🎫 **Support technique & ticketing** (Easy Vista, GLPI)  
 
-_ Un déploiement massif en France et en Europe, avec une expansion rapide du réseau.
+---
 
-_ Une approche centrée sur l’utilisateur, avec une application intuitive pour localiser et réserver les bornes.
+## ⚡ Electra - Cloud & Mobilité Électrique  
 
-Chez Electra, j’ai pu travailler sur la gestion des infrastructures IT internes, la sécurisation des accès aux données et le support informatique pour les équipes techniques.
+### 📌 Présentation  
+[Electra](https://www.go-electra.com/) est une start-up française en pleine expansion, spécialisée dans les **bornes de recharge ultra-rapides** pour véhicules électriques. Son ambition est de simplifier la transition énergétique en proposant une **expérience fluide et optimisée** pour les utilisateurs.
+
+**Electra se distingue par :**  
+- ⚡ **Des bornes ultra-rapides** (150-300 kW) permettant une recharge en moins de 30 min  
+- 🌍 **Une expansion rapide** du réseau en France et en Europe  
+- 📱 **Une approche user-friendly** avec une application intuitive  
+
+### 🔧 Stack technologique  
+- **IDP** : Google Workspace  
+- **Infrastructure** : Wi-Fi **Unifi**, salles de réunion **Logitech Google Meet**  
+- **Gestion IT** : Workspace One (Fleet), Jira  
+- **Collaboration** : Gmail, Notion, Slack, Pitch  
+
+### 🎯 Missions et compétences développées  
+- 🔐 **Gestion des identités et accès utilisateurs** (Google Workspace, Zero Trust)  
+- 📡 **Administration et segmentation du réseau Wi-Fi** (Unifi, VLANs)  
+- 💻 **Déploiement et gestion des postes** (Workspace One, standardisation IT)  
+- 📊 **Collaboration et documentation IT** (Notion, Jira, Slack) 
