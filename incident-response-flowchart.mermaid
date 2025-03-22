@@ -1,0 +1,18 @@
+flowchart TD
+  A[Détection incident] --> B{Type d'incident?}
+  B -->|Panne matérielle| C[Activation basculement automatique]
+  B -->|Attaque/Ransomware| D[Isolation du segment réseau affecté]
+  B -->|Catastrophe naturelle| E[Activation PRA site secondaire]
+  C --> F[Vérification intégrité services]
+  D --> G[Analyse sécurité & Évaluation impact]
+  E --> H[Basculement complet vers site secondaire]
+  F -->|Service OK| I[Mise en place supervision renforcée]
+  F -->|Service KO| J[Restauration depuis sauvegarde]
+  G --> K[Décontamination & Restauration]
+  H --> L[Notification équipes & activation mode dégradé]
+  I --> M[Rapport d'incident]
+  J --> M
+  K --> M
+  L --> M
+  M --> N[Retour d'expérience]
+  N --> O[Mise à jour procédures]
