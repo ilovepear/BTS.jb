@@ -39,7 +39,7 @@ Ce repository regroupe mes expériences, compétences et projets réalisés en l
 
 ---
 
-## ⚡ Electra - Cloud & Mobilité Électrique  
+## ⚡ Electra - Simplicité & Mobilité Électrique  
 
 ### 📌 Présentation  
 [Electra](https://www.go-electra.com/) est une start-up française en pleine expansion, spécialisée dans les **bornes de recharge ultra-rapides** pour véhicules électriques. Son ambition est de simplifier la transition énergétique en proposant une **expérience fluide et optimisée** pour les utilisateurs.
