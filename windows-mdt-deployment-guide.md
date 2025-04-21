@@ -271,7 +271,7 @@ Chaque mise à jour est documentée précisément :
    - Sélection du boot PXE au démarrage (généralement F12)
    - Connexion au serveur MDT
    - Authentification avec identifiants de déploiement
-   - Sélection de la séquence de tâches appropriée
+   - Sélection de la séquence de tâches appropriée (ici "master")
 
 3. **Installation automatisée**
    - Partitionnement du disque selon le schéma prédéfini
@@ -302,7 +302,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[Sauvegarde données] --> B[Réinitialisation]
+    A[Sauvegarde données, via DFS ou solution cloud] --> B[Réinitialisation]
     B --> C[Configuration BIOS]
     C --> D[Déploiement image]
     D --> E[Restauration données]
@@ -325,7 +325,7 @@ flowchart TD
 
 Chaque déploiement fait l'objet d'une vérification systématique :
 - Installation complète des logiciels
-- Connectivité réseau et Active Directory
+- Connectivité réseau et vérification de la présence du poste dans l'AD
 - Validation des configurations spécifiques
 - Contrôle des performances système
 
@@ -334,22 +334,6 @@ Chaque déploiement fait l'objet d'une vérification systématique :
 ### ⚙️ Configuration du contrôleur de domaine
 
 Le déploiement s'appuie sur l'infrastructure Active Directory existante :
-
-1. **Installation du rôle AD DS**
-
-```powershell
-Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
-```
-
-2. **Promotion en contrôleur de domaine**
-
-```powershell
-Install-ADDSForest -DomainName "domaine.local" -InstallDNS:$true
-```
-
-3. **Configuration DNS et DHCP**
-   - Configuration des zones de recherche directe et inversée
-   - Définition des étendues DHCP avec options nécessaires au PXE
 
 ### 📋 Stratégies de groupe (GPO)
 
@@ -496,3 +480,4 @@ New-Item -Path "DS:\OperatingSystems" -Enable "True" -Name "OS001" -Comments "Wi
 Cette méthodologie permet d'assurer un déploiement fiable et homogène sur l'ensemble du parc informatique, tout en optimisant les ressources et le temps nécessaires à la mise en service des postes de travail. La solution proposée répond aux objectifs fixés en termes de standardisation, rapidité de déploiement et facilité de maintenance.
 
 </div>
+
