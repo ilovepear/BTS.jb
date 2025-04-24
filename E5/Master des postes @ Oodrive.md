@@ -46,6 +46,32 @@ c. Paramétrages réseau
 d. Configuration messagerie
 
 VII. Conclusion
+
+Compétences mise en œuvre pour cette activité professionnelle
+
+I. Introduction
+II. Préparation du poste
+
+a. Sélection du matériel adéquat
+b. Préparation serveur WDS
+c. Mastérisation
+d. BitLocker
+e. Installation des certificats d'entreprise
+
+III. Vérification de la conformité
+
+a. Test de conformité
+
+IV. Prise de rendez-vous
+V. Mise à jour de la base de données
+VI. Installation et configuration du poste
+
+a. Configuration utilisateur
+b. Installation des logiciels spécifiques
+c. Paramétrages réseau
+d. Configuration messagerie
+
+VII. Conclusion
 # Nature de l'activité :
 ## Contexte :
 Dans le cadre entreprise, je dois effectuer la préparation et l'installation d'un nouveau poste informatique pour un utilisateur de l'entreprise Oodrive en suivant les procédures établies.
