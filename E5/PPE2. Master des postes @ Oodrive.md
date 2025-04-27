@@ -17,7 +17,7 @@
 ### Conditions initiales 
 ### Résultat final
 ### Outils utilisés 
-### Compétences mise en œuvre pour cette activité professionnelle 
+
 ### I. Introduction 
 ### II. Préparation du poste 
 ### a. Sélection du matériel adéquat 
@@ -92,26 +92,6 @@ Poste informatique conforme aux standards Oodrive, intégré au domaine et plein
 
 ### Outils utilisés :
 Serveur WDS (Windows Deployment Services), MDT (Microsoft Deployment Toolkit), FusionInventory, PowerShell et Windows 10 Professionnel.
-
-## Compétences mise en œuvre pour cette activité professionnelle :
-- Prise en charge d'incidents et de demandes d'assistance liés au domaine de spécialité du candidat
-- Élaboration de documents relatifs à la production et à la fourniture de services
-- Productions relatives à la mise en place d'un dispositif de veille technologique et à l'étude d'une technologie, d'un composant, d'un outil ou d'une méthode
-- A.1.1.1 Analyse du cahier des charges d'un service à produire
-- A.1.1.3 Étude des exigences liées à la qualité attendue d'un service
-- A.1.2.4 Détermination des tests nécessaires à la validation d'un service
-- A.1.3.1 Test d'intégration et d'acceptation d'un service
-- A.1.3.2 Définition des éléments nécessaires à la continuité d'un service
-- A.1.3.3 Accompagnement de la mise en place d'un nouveau service
-- A.1.4.1 Participation à un projet
-- A.2.1.1 Accompagnement des utilisateurs dans la prise en main d'un service
-- A.2.2.1 Suivi et résolution d'incidents
-- A.2.2.2 Suivi et réponse à des demandes d'assistance
-- A.3.1.3 Suivi d'incidents et de remédiations
-- A.3.2.2 Remplacement ou mise à jour d'éléments défectueux ou obsolètes
-- A.3.3.2 Planification des sauvegardes et gestion des restaurations
-- A.4.1.9 Rédaction d'une documentation technique
-- A.5.1.2 Recueil d'informations sur une configuration et ses éléments
 
 # I. Introduction :
 Mon cinquième PPE (Projet Personnalisé Encadré) consiste à effectuer la préparation et l'installation d'un poste informatique pour un nouvel utilisateur chez Oodrive. Ce processus implique la sélection du matériel approprié selon le profil de l'utilisateur, la masterisation du poste via le serveur WDS avec MDT, la configuration de la sécurité et l'installation des logiciels standards de l'entreprise.
