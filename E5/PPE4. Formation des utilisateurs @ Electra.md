@@ -1,22 +1,17 @@
-﻿# BTS Services Informatiques aux Organisations
-Option Solutions d'Infrastructure, Systèmes et Réseaux
-Session 2025
-E6 : Parcours de Professionnalisation :
-Projet Personnalisé Encadré 5 (PPE 5) :
-PPE 5 : Formation des utilisateurs à Electra : Cybersécurité et Productivité
+# Formation des utilisateurs @ Electra
 ## Table des matières
-- Nature de l'activité
-  - Contexte
-  - Objectifs
-  - Conditions de réalisations
-  - Difficultés rencontrées
-  - Durée de réalisation
-- Solutions envisageables
-- Solution retenue
-  - Conditions initiales
-  - Résultat final
-  - Outils utilisés
-- Compétences mise en œuvre pour cette activité professionnelle
+### - Nature de l'activité
+###  - Contexte
+###  - Objectifs
+###  - Conditions de réalisations
+###  - Difficultés rencontrées
+###  - Durée de réalisation
+### - Solutions envisageables
+### - Solution retenue
+###  - Conditions initiales
+###  - Résultat final
+###  - Outils utilisés
+
 - I. Introduction
 - II. Conception du parcours de formation
   - a. Évaluation des besoins
