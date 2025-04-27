@@ -20,7 +20,6 @@
 - **Conditions initiales**
 - **Résultat final**
 - **Outils utilisés**
-- **Compétences mise en œuvre pour cette activité professionnelle**
 
 ### I. Introduction
 
@@ -109,34 +108,6 @@ Infrastructure VPN hautement disponible, sécurisée, conforme aux standards Sec
 
 ### Outils utilisés :
 OpenVPN, PuTTY, EasyRSA, OpenSSL, Zabbix, Elastic Stack, scripts bash personnalisés pour l'automatisation.
-
-## Compétences mise en œuvre pour cette activité professionnelle :
-- A.1.1.1 Analyse du cahier des charges d'un service à produire
-- A.1.1.3 Étude des exigences liées à la qualité attendue d'un service
-- A.1.3.4 Déploiement d'un service
-- A.1.4.1 Participation à un projet
-- A.2.3.1 Identification, qualification et évaluation d'un problème
-- A.2.3.2 Proposition d'amélioration d'un service
-- A.3.1.1 Administration d'une infrastructure
-- A.3.1.2 Administration des moyens techniques d'un environnement de communications unifiées
-- A.3.1.3 Suivi d'incidents et de remédiations
-- A.3.2.1 Installation et configuration d'éléments d'infrastructure
-- A.3.2.2 Remplacement ou mise à jour d'éléments défectueux ou obsolètes
-- A.3.3.1 Administration d'une base de données
-- A.3.3.3 Sécurisation d'une solution technique
-- A.4.1.2 Recueil des besoins d'évolution d'une solution d'infrastructure
-- A.4.1.7 Développement, utilisation ou adaptation de composants logiciels
-- A.4.1.9 Rédaction d'une documentation technique
-- A.5.1.1 Mise en place d'une gestion de configuration
-- A.5.1.2 Recueil d'informations sur une configuration et ses éléments
-- A.5.1.3 Suivi d'une configuration et de ses éléments
-- A.5.1.4 Étude de propositions de contrats de service (client, fournisseur)
-- A.5.1.5 Évaluation d'un élément de configuration ou d'une configuration
-- A.5.1.6 Évaluation d'un investissement informatique
-- A.5.2.1 Gestion des actifs informatiques
-- A.5.2.2 Gestion des problèmes et des changements
-- A.5.2.3 Gestion des risques informatiques
-- A.5.2.4 Gestion de la qualité de service informatique
 
 # I. Introduction :
 Dans le cadre de mes responsabilités au sein de l'équipe IT d'Oodrive, j'assure la maintenance et la gestion de l'infrastructure VPN interne de l'entreprise. Cette infrastructure est particulièrement critique car Oodrive est certifiée SecNumCloud, certification française de haut niveau pour les fournisseurs de services cloud qui impose des exigences strictes en matière de sécurité et de disponibilité des systèmes.
