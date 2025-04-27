@@ -1,23 +1,17 @@
-# BTS Services Informatiques aux Organisations
-Option Solutions d'Infrastructure, Systèmes et Réseaux
-Session 2025
-E6 : Parcours de Professionnalisation :
-Projet Personnalisé Encadré 4 (PPE 4) :
-PPE 4 : Mise en place d'un MDM Workspace ONE à Electra.
+# Configuration d'un MDM WS1 @ Electra
 
 ## Table des matières
-- Nature de l'activité
-  - Contexte
-  - Objectifs
-  - Conditions de réalisations
-  - Difficultés rencontrées
-  - Durée de réalisation
-- Solutions envisageables
-- Solution retenue
-  - Conditions initiales
-  - Résultat final
-  - Outils utilisés
-  - Compétences mise en œuvre pour cette activité professionnelle
+### - Nature de l'activité
+###  - Contexte
+###  - Objectifs
+###  - Conditions de réalisations
+###  - Difficultés rencontrées
+###  - Durée de réalisation
+### - Solutions envisageables
+### - Solution retenue
+###  - Conditions initiales
+###  - Résultat final
+###  - Outils utilisés
 - I. Introduction
 - II. Analyse des besoins
   - a. Présentation d'Electra
@@ -114,20 +108,6 @@ Environnement MDM complet permettant la gestion centralisée des appareils, le d
 - Connecteurs d'intégration Google Workspace
 - Scripts PowerShell pour l'automatisation
 - Outils de reporting et de suivi des actifs
-
-### Compétences mise en œuvre pour cette activité professionnelle :
-- A1.1.1 Analyse du cahier des charges d'un service à produire
-- A1.1.3 Étude des exigences liées à la qualité attendue d'un service
-- A1.2.4 Détermination des tests nécessaires à la validation d'un service
-- A1.3.1 Test d'intégration et d'acceptation d'un service
-- A1.3.2 Définition des éléments nécessaires à la continuité d'un service
-- A1.3.3 Accompagnement de la mise en place d'un nouveau service
-- A1.4.1 Participation à un projet
-- A2.3.1 Identification, qualification et évaluation d'un problème
-- A3.2.1 Installation et configuration d'éléments d'infrastructure
-- A4.1.9 Rédaction d'une documentation technique
-- A5.1.2 Recueil d'informations sur une configuration et ses éléments
-- A5.2.2 Veille technologique
 
 ## I. Introduction :
 Mon cinquième PPE (Projet Personnalisé Encadré) consiste à mettre en place une solution de Mobile Device Management (MDM) pour Electra, une scale-up en pleine croissance. Cette entreprise, spécialisée dans la transition énergétique, connaît une expansion rapide de ses effectifs et donc de son parc informatique. Afin de garantir la sécurité des données et d'optimiser la gestion des appareils, il est devenu nécessaire d'implémenter une solution MDM complète et adaptée à ses besoins spécifiques.
