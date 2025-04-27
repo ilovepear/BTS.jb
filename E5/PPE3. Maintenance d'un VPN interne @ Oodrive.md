@@ -1,17 +1,12 @@
-# BTS Services Informatiques aux Organisations
-Option Solutions d'Infrastructure, Systèmes et Réseaux
-Session 2025
-E6 : Parcours de Professionnalisation :
-Projet Personnalisé Encadré 3 (PPE 3) :
-PPE 5 : Mainenance du VPN à Oodrive : Cybersécurité
+# Maintenance d'un VPN interne @ Oodrive
 
-# Table des matières
+## Sommaire
 
-## Nature de l'activité
+### Nature de l'activité
 - **Contexte**
 - **Objectifs**
 
-## Conditions de réalisations
+### Conditions de réalisations
 - **Matériel**
 - **Contraintes**
 - **Logiciel**
@@ -19,42 +14,42 @@ PPE 5 : Mainenance du VPN à Oodrive : Cybersécurité
 - **Difficultés rencontrées**
 - **Durée de réalisation**
 
-## Solutions envisageables
+### Solutions envisageables
 
-## Solution retenue
+### Solution retenue
 - **Conditions initiales**
 - **Résultat final**
 - **Outils utilisés**
 - **Compétences mise en œuvre pour cette activité professionnelle**
 
-## I. Introduction
+### I. Introduction
 
-## II. Présentation de l'infrastructure VPN
+### II. Présentation de l'infrastructure VPN
 - **Architecture du réseau VPN**
 - **Configuration des instances VPN**
 - **Sécurisation des accès**
 - **Certificats et authentification**
 - **Journalisation et monitoring**
 
-## III. Procédures de maintenance
+### III. Procédures de maintenance
 - **Mise à jour du serveur VPN**
 - **Gestion des certificats utilisateurs**
 
-## IV. Gestion des accès utilisateurs
+### IV. Gestion des accès utilisateurs
 - **Création de compte utilisateur**
 - **Révocation d'accès**
 - **Modification des privilèges d'accès**
 
-## V. Surveillance et résolution d'incidents
+### V. Surveillance et résolution d'incidents
 - **Outils de monitoring**
 - **Procédures d'intervention**
 - **Plan de reprise d'activité**
 
-## VI. Documentation et conformité
+### VI. Documentation et conformité
 - **Mise à jour de la documentation**
 - **Audits de sécurité**
 
-## VII. Conclusion
+### VII. Conclusion
 
 # Nature de l'activité :
 ## Contexte :
