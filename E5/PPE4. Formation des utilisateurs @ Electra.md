@@ -1,5 +1,5 @@
 # Formation des utilisateurs @ Electra
-## Table des matières
+## Sommaire
 ### - Nature de l'activité
 ###  - Contexte
 ###  - Objectifs
