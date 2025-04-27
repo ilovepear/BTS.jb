@@ -1,6 +1,6 @@
 # Configuration d'un MDM WS1 @ Electra
 
-## Table des matières
+## Sommaire
 ### - Nature de l'activité
 ###  - Contexte
 ###  - Objectifs
