@@ -43,7 +43,7 @@ PPE 5 : Formation des utilisateurs à Electra : Cybersécurité et Productivité
 - VII. Conclusion
 ## Nature de l'activité
 ### Contexte
-Dans le cadre du PPE 5 en entreprise, j'ai été chargé de mettre en place un programme de formation complet pour les utilisateurs d'Electra. Cette formation vise à la fois à renforcer les compétences en cybersécurité et à optimiser la productivité des collaborateurs grâce à la maîtrise des outils collaboratifs de l'entreprise. Face à l'augmentation des cyberattaques, notamment par phishing, et au besoin d'améliorer l'efficacité opérationnelle, cette initiative est devenue une priorité stratégique.
+Dans le cadre du PPE 5 en entreprise, j'ai été chargé de mettre en place un programme de formation complet pour les utilisateurs d'Electra. Cette formation vise à la fois à renforcer les compétences en cybersécurité et à optimiser la productivité des collaborateurs grâce à la maîtrise des outils collaboratifs de l'entreprise. Face à l'augmentation des cyberattaques, notamment par phishing, et au besoin d'améliorer l'efficacité opérationnelle, cette initiative est devenue une priorité stratégique. Elle constitue également l'un des pans de la certification ISO 27001, sur laquelle je travaille avec le reste des équipes de la DSI d'Electra.
 ### Objectifs
 - Conception et déploiement d'un programme de formation en cybersécurité
 - Mise en place de campagnes de sensibilisation au phishing via TryRiot
