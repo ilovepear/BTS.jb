@@ -300,36 +300,6 @@ Chaque déploiement fait l'objet d'une vérification systématique :
 
 ## Intégration Active Directory
 
-### Configuration du contrôleur de domaine
-
-Le déploiement s'appuie sur l'infrastructure Active Directory existante :
-
-1. **Installation du rôle AD DS**
-   ```powershell
-   Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
-   ```
-
-2. **Promotion en contrôleur de domaine**
-   ```powershell
-   Install-ADDSForest -DomainName "domaine.local" -InstallDNS:$true
-   ```
-
-3. **Configuration DNS et DHCP**
-   - Configuration des zones de recherche directe et inversée
-   - Définition des étendues DHCP avec options nécessaires au PXE
-
-### Stratégies de groupe (GPO)
-
-1. **Création des GPO de base**
-   - Stratégies de mot de passe
-   - Configuration du bureau à distance
-   - Paramètres de pare-feu
-
-2. **GPO spécifiques au déploiement**
-   - Restrictions d'accès utilisateur
-   - Configuration des applications
-   - Paramètres de sécurité
-
 ### Intégration des postes clients
 1. **Jonction au domaine**
    ```powershell
