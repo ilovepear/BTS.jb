@@ -394,16 +394,15 @@ New-Item -Path "DS:\OperatingSystems" -Enable "True" -Name "OS001" -Comments "Wi
 ### Matrice de compatibilité matérielle
 | Fabricant | Modèle | BIOS/UEFI | Pilotes spécifiques | Remarques |
 |-----------|--------|-----------|---------------------|-----------|
-| Dell      | Latitude 5520 | UEFI | Interface réseau, Stockage | Compatible PXE |
-| HP        | EliteBook 840 G8 | UEFI | Carte graphique, Wifi | Secure Boot à désactiver |
-| Lenovo    | ThinkPad T14 | UEFI/Legacy | Touchpad, Audio | F12 pour boot menu |
+| Dell      | Latitude 7320 | UEFI | Interface réseau, Stockage | Compatible PXE |
+| Dell      | Latitude 7520 | UEFI | Interface réseau, Stockage | Compatible PXE |
+| Dell      | Latitude 7310 | UEFI | Interface réseau, Stockage | Compatible PXE |
 
 ### Calendrier de maintenance
 | Semaine | Action | Responsable | Validation |
 |---------|--------|-------------|------------|
-| S1      | Mise à jour Windows | Admin système | Tests fonctionnels |
-| S2      | Mise à jour logiciels | Support niveau 2 | Tests applications |
-| S3      | Révision séquences | Admin MDT | Tests déploiement |
+| S1      | Mise à jour Windows et choco| Admin système | Tests fonctionnels |
+| S2      | Phase de déploiement | Support niveau 1 | Tests applications |
 | S4      | Nouvelle capture | Admin système | Validation image |
 
 ---
