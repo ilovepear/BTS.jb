@@ -91,20 +91,9 @@ Programme de formation à créer intégralement, avec prise en compte des besoin
 Déploiement d'un parcours de formation structuré améliorant significativement la vigilance face aux menaces et optimisant l'utilisation des outils collaboratifs.
 ### Outils utilisés
 TryRiot, LMS interne, Notion, Gmail, Slack, Dashlane, Google Analytics pour le suivi des résultats.
-## Compétences mise en œuvre pour cette activité professionnelle
-- A1.1.1 Analyse du cahier des charges d'un service à produire
-- A1.1.3 Étude des exigences liées à la qualité attendue d'un service
-- A1.2.4 Détermination des tests nécessaires à la validation d'un service
-- A1.3.1 Test d'intégration et d'acceptation d'un service
-- A1.3.3 Accompagnement de la mise en place d'un nouveau service
-- A1.4.1 Participation à un projet
-- A2.1.1 Accompagnement des utilisateurs dans la prise en main d'un service
-- A2.2.1 Suivi et résolution d'incidents
-- A2.2.2 Suivi et réponse à des demandes d'assistance
-- A4.1.9 Rédaction d'une documentation technique
-- A5.1.2 Recueil d'informations sur une configuration et ses éléments
+
 ## I. Introduction
-Mon cinquième PPE (Projet Personnalisé Encadré) consiste à concevoir et déployer un programme de formation complet pour les utilisateurs d'Electra. Ce programme vise deux objectifs principaux : renforcer la posture de cybersécurité de l'entreprise en formant les collaborateurs aux bonnes pratiques et améliorer leur productivité par la maîtrise d'outils collaboratifs essentiels.
+Mon quatrième PPE (Projet Personnalisé Encadré) consiste à concevoir et déployer un programme de formation complet pour les utilisateurs d'Electra. Ce programme vise deux objectifs principaux : renforcer la posture de cybersécurité de l'entreprise en formant les collaborateurs aux bonnes pratiques et améliorer leur productivité par la maîtrise d'outils collaboratifs essentiels.
 
 L'entreprise Electra a récemment connu une tentative d'intrusion via une attaque de phishing ciblée, révélant des lacunes dans la vigilance des utilisateurs face aux menaces. Parallèlement, le déploiement récent de nouveaux outils collaboratifs (Notion, Gmail professionnel et Slack) nécessite un accompagnement structuré pour en optimiser l'adoption et l'utilisation.
 
@@ -167,7 +156,7 @@ Chaque module a été conçu avec :
 La planification des sessions a représenté un défi majeur compte tenu des contraintes opérationnelles. J'ai opté pour une approche mixte :
 
 1. **Sessions présentielles** :
-   - Sessions de 2 heures maximum pour limiter l'impact sur la productivité
+   - Sessions de 1 heure maximum pour limiter l'impact sur la productivité
    - Planification en concertation avec les managers pour éviter les périodes critiques
    - Organisation de sessions par département ou par niveau de compétence
    - Sessions de rattrapage proposées régulièrement
@@ -229,10 +218,7 @@ La stratégie déployée avec TryRiot comprend plusieurs volets :
    - Analyse des tendances et identification des vulnérabilités récurrentes
    - Adaptation continue du programme en fonction des résultats
 
-![Interface TryRiot](image/tryriot-dashboard.png)
-*Figure 1 : Interface d'administration TryRiot*
-
-J'ai configuré TryRiot pour déployer une campagne mensuelle avec différents scénarios. Chaque campagne est précédée d'une communication discrète à la direction indiquant qu'un test aura lieu "dans les semaines à venir" sans préciser la date exacte pour préserver l'authenticité du test.
+J'ai configuré TryRiot pour déployer une campagne mensuelle avec différents scénarios. Chaque campagne est précédée d'une communication discrète à la direction technique indiquant qu'un test aura lieu "dans les semaines à venir" sans préciser la date exacte pour préserver l'authenticité du test.
 
 Les résultats sont analysés collectivement lors de sessions de débriefing, sans stigmatisation des individus ayant échoué, mais en valorisant les bonnes pratiques et la progression collective.
 ### c. Gestion des mots de passe avec Dashlane
@@ -315,9 +301,6 @@ Le module Notion a été structuré en plusieurs niveaux :
    - Boutons et actions automatisées
    - API et possibilités d'extension
 
-![Structure Notion](image/notion-structure.png)
-*Figure 2 : Structure recommandée de l'espace Notion Electra*
-
 Pour faciliter l'adoption, j'ai développé plusieurs ressources :
 
 - Templates spécifiques pour chaque département
@@ -351,9 +334,6 @@ Le programme Gmail comprend :
    - Configuration des filtres anti-spam personnalisés
    - Signalement efficace des messages indésirables
    - Bonnes pratiques de sécurité spécifiques à Gmail
-
-![Configuration Gmail](image/gmail-configuration.png)
-*Figure 3 : Configuration recommandée de la boîte de réception Gmail*
 
 Pour renforcer l'efficacité de la formation, chaque participant a configuré en direct :
 
@@ -389,9 +369,6 @@ Le module Slack s'articule autour de quatre axes :
    - Gestion des statuts et disponibilité
    - Charte de communication interne
 
-![Organisation Slack](image/slack-structure.png)
-*Figure 4 : Structure des canaux Slack recommandée*
-
 Les sessions de formation Slack ont systématiquement inclus des exercices collaboratifs où les participants :
 
 - Ont créé et rejoint des canaux thématiques
@@ -426,8 +403,6 @@ Ce module d'intégration couvre :
    - Communication client
    - Reporting et tableaux de bord
 
-![Intégrations](image/integrations-diagram.png)
-*Figure 5 : Écosystème d'intégrations entre outils*
 
 Des ateliers pratiques ont permis aux participants de configurer leurs propres intégrations en fonction de leurs besoins spécifiques, avec un accompagnement personnalisé. Cette approche "sur mesure" a fortement contribué à l'adoption effective des outils.
 ## V. Déploiement de la formation
@@ -484,9 +459,6 @@ Ces ressources comprennent :
    - Showcase des utilisations innovantes
    - Canal Slack dédié au support
 
-![LMS Electra](image/lms-resources.png)
-*Figure 6 : Interface du LMS avec ressources de formation*
-
 Les ressources en ligne ont été organisées selon plusieurs parcours types correspondant aux profils d'utilisateurs identifiés, avec un système de progression qui encourage l'apprentissage continu.
 ### c. Assistance continue
 Pour garantir une adoption pérenne et résoudre les difficultés rencontrées par les utilisateurs, j'ai mis en place un dispositif d'assistance continue multi-canal.
@@ -540,10 +512,7 @@ Pour mesurer l'efficacité de la formation et s'assurer de l'acquisition des com
    - Identification des besoins complémentaires
    - Retour sur la confiance dans l'utilisation des outils
    - Suggestions d'amélioration du parcours
-
-![Résultats tests](image/test-results-dashboard.png)
-*Figure 7 : Tableau de bord des résultats des tests de connaissances*
-
+   - 
 Les résultats des évaluations étaient accessibles à chaque collaborateur via un tableau de bord personnel, avec visualisation de sa progression et recommandations personnalisées pour renforcer les points faibles identifiés.
 ### b. Mesure de l'efficacité des formations
 Au-delà des tests de connaissances, j'ai mis en place un dispositif de mesure plus global de l'efficacité du programme, orienté vers les impacts concrets sur la sécurité et la productivité :
@@ -568,9 +537,6 @@ Au-delà des tests de connaissances, j'ai mis en place un dispositif de mesure p
    - Amélioration de la collaboration inter-équipes
    - Diminution des risques liés aux menaces externes
    - ROI calculé (temps gagné vs temps de formation)
-
-![Tableau de bord efficacité](image/efficacite-formation.png)
-*Figure 8 : Évolution des indicateurs clés de performance*
 
 Un tableau de bord trimestriel a été présenté à la direction, permettant de visualiser les progrès réalisés et d'ajuster la stratégie de formation en conséquence.
 ### c. Amélioration continue
