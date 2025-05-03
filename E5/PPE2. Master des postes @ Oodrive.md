@@ -313,9 +313,9 @@ Pour un développeur, je m'assure également que les accès aux environnements d
 
 ## d. Configuration messagerie :
 
-Je configure le client de messagerie Outlook avec le compte professionnel de l'utilisateur. L'intégration au domaine facilite cette étape car les informations nécessaires sont automatiquement récupérées depuis l'Active Directory.
+Je configure le client de messagerie Outlook avec le compte professionnel de l'utilisateur, ainsi que Teams. L'intégration au domaine facilite cette étape car les informations nécessaires sont automatiquement récupérées depuis l'Active Directory.
 
-Je vérifie que l'utilisateur a accès à sa boîte mail, son calendrier et ses contacts. Je configure également les signatures électroniques conformément à la charte graphique d'Oodrive.
+Je vérifie que l'utilisateur a accès à sa boîte mail, son calendrier et ses contacts. Je configure également les signatures électroniques conformément à la charte graphique d'Oodrive, en cas d'arrivée.
 
 # VII. Conclusion :
 
