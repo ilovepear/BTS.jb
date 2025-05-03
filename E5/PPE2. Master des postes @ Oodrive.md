@@ -167,7 +167,7 @@ Cette commande active le chiffrement BitLocker sur le lecteur C:, génère un mo
 
 
 Conformément à la politique de sécurité Oodrive, je m'assure que la clé de récupération est également sauvegardée dans l'Active Directory de l'entreprise depuis mon poste en RDP, en accédant au serveur AD.
-```
+
 
 Sinon,je démarre le chiffrement BitLocker démarre et s'exécutera en arrière-plan. Il prendra plusieurs heures pour se terminer complètement, mais le poste reste utilisable pendant ce processus.
 
@@ -207,7 +207,7 @@ Tous les points de conformité étant validés, je peux poursuivre avec la prép
 
 Une fois le poste préparé et vérifié, je dois planifier la livraison et l'installation du poste avec l'utilisateur final. Pour cela, j'utilise un modèle d'email standardisé :
 
-```
+
 Objet : Livraison de votre nouveau poste informatique - [Date]
 
 Bonjour [Prénom de l'utilisateur],
@@ -229,7 +229,7 @@ Merci de me confirmer si ce créneau vous convient ou de me proposer une alterna
 Cordialement,
 [Prénom Nom]
 Service Informatique Oodrive
-```
+
 
 Je programme ce rendez-vous en tenant compte des disponibilités de l'utilisateur et de la charge de travail du service informatique.
 
@@ -240,13 +240,13 @@ Après avoir préparé le poste et avant de le livrer à l'utilisateur, je dois 
 Chez Oodrive, nous utilisons FusionInventory couplé à GLPI pour la gestion de notre parc informatique. Je me connecte à l'interface web de GLPI pour effectuer la mise à jour.
 
 Dans l'interface, je recherche le poste par son numéro de série (3HMZXV3) et j'accède à sa fiche. Je modifie ensuite les informations suivantes :
-
+```
 - État : "En production" (au lieu de "En préparation")
 - Utilisateur attribué : [Nom et prénom de l'utilisateur]
 - Localisation : [Bureau/étage de l'utilisateur]
 - Date de mise en service : [Date du jour]
 - Commentaire : "Nouveau poste - Dell Latitude 7520 - Profil développeur"
-
+```
 
 Je sauvegarde ces modifications pour mettre à jour la base de données. Cette étape est importante pour le suivi du parc informatique et pour les futures interventions sur ce poste.
 
@@ -262,7 +262,6 @@ La première connexion initialise son profil et configure automatiquement les pa
 - Connexion aux imprimantes de proximité
 
 Je vérifie également que les stratégies de groupe (GPO) s'appliquent correctement en exécutant la commande :
-
 ```
 gpupdate /force
 ```
@@ -278,7 +277,7 @@ En fonction des besoins spécifiques de l'utilisateur, j'installe les logiciels 
 - Outils de base de données
 
 Via ce petit script :
-
+```
 # Exécuter en tant qu'administrateur
 
 # 1. Installer Chocolatey si non présent
@@ -298,7 +297,7 @@ Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
 [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\Docker\Docker\resources\bin", [EnvironmentVariableTarget]::Machine)
 
 Write-Host "Installation terminée. Veuillez redémarrer la machine si nécessaire." -ForegroundColor Green
-
+```
 Pour les logiciels sous licence, je vérifie que les licences sont bien attribuées à l'utilisateur dans notre système de gestion de licences.
 
 ## c. Paramétrages réseau :
