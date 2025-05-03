@@ -45,7 +45,7 @@ Installation du système d'exploitation (Windows 11 Professionnel), configuratio
 
 ## Conditions de réalisations :
 ### Matériel :
-Dell Latitude 7340 (pour les développeurs) :
+Dell Latitude 7520 (pour les développeurs) :
 - Processeur Intel Core i7 de 13ème génération
 - 32 Go RAM DDR5
 - 512 Go SSD NVMe
@@ -101,10 +101,10 @@ Mon cinquième PPE (Projet Personnalisé Encadré) consiste à effectuer la pré
 
 Chez Oodrive, nous disposons de deux modèles principaux de postes informatiques attribués selon le profil métier de l'utilisateur :
 
-- Dell Latitude 7340 pour les développeurs : ces postes sont équipés de 32 Go de RAM pour supporter les environnements de développement qui nécessitent davantage de ressources.
+- Dell Latitude 7520 pour les développeurs : ces postes sont équipés de 32 Go de RAM pour supporter les environnements de développement qui nécessitent davantage de ressources.
 - Dell Latitude 7320 pour les autres collaborateurs : ces postes sont équipés de 16 Go de RAM, suffisants pour les tâches bureautiques standard.
 
-Dans le cadre de cette intervention, l'utilisateur étant un développeur backend, j'ai sélectionné un Dell Latitude 7340 avec 32 Go de RAM.
+Dans le cadre de cette intervention, l'utilisateur étant un développeur backend, j'ai sélectionné un Dell Latitude 7520 avec 32 Go de RAM.
 
 
 Chaque poste est identifiable via son numéro de série et son identifiant dans l'inventaire :
@@ -130,11 +130,10 @@ L'image système contient déjà une série de logiciels préinstallés conform�
 Pour masteriser le poste informatique, je dois le connecter au réseau d'entreprise via un câble Ethernet pour établir une connexion avec le serveur WDS.
 
 
-Je démarre le poste et j'appuie sur la touche F12 pendant le démarrage pour accéder au menu de démarrage (Boot Menu). Je sélectionne l'option "Network Boot" (PXE Boot) pour démarrer sur le réseau, et je désactive le Secure Boot.
+Je démarre le poste et j'appuie sur la touche F12 pendant le démarrage pour accéder au menu de démarrage (Boot Menu). Je sélectionne l'option "Network Boot" (PXE Boot) pour démarrer sur le réseau, et je désactive le Secure Boot. J'autorise également le boot par USB-C.
 
-![Menu de démarrage - Boot sur PXE](Figure 5 Menu de démarrage - Boot sur PXE)
 
-Le poste se connecte au serveur WDS et affiche la liste des images disponibles. Je sélectionne l'image "Windows 10 Pro - Oodrive Standard Build v2.3" qui correspond au standard actuel de l'entreprise.
+Le poste se connecte au serveur WDS et affiche la liste des images disponibles. Je sélectionne l'image "Master" qui correspond au standard actuel de l'entreprise.
 
 
 L'installation du système d'exploitation débute. Cette étape dure environ 45 minutes pendant lesquelles le système est installé, les pilotes sont configurés et les logiciels standards sont préinstallés.
@@ -142,7 +141,7 @@ L'installation du système d'exploitation débute. Cette étape dure environ 45 
 
 Pendant le processus d'installation, le système effectue automatiquement les tâches suivantes :
 - Installation de Windows 11 Professionnel
-- Installation des pilotes spécifiques au modèle Dell Latitude 7340
+- Installation des pilotes spécifiques au modèle Dell Latitude 7520
 - Installation des logiciels standards (Office 365, navigateurs, etc.)
 - Configuration des paramètres de sécurité de base
 - Intégration au domaine Oodrive
@@ -246,7 +245,7 @@ Dans l'interface, je recherche le poste par son numéro de série (3HMZXV3) et j
 - Utilisateur attribué : [Nom et prénom de l'utilisateur]
 - Localisation : [Bureau/étage de l'utilisateur]
 - Date de mise en service : [Date du jour]
-- Commentaire : "Nouveau poste - Dell Latitude 7340 - Profil développeur"
+- Commentaire : "Nouveau poste - Dell Latitude 7520 - Profil développeur"
 
 
 Je sauvegarde ces modifications pour mettre à jour la base de données. Cette étape est importante pour le suivi du parc informatique et pour les futures interventions sur ce poste.
@@ -278,7 +277,27 @@ En fonction des besoins spécifiques de l'utilisateur, j'installe les logiciels 
 - Environnements de développement spécifiques (Node.js, Python, etc.)
 - Outils de base de données
 
-L'installation de ces logiciels se fait soit manuellement, soit via FusionInventory qui permet de déployer des logiciels à distance.
+Via ce petit script :
+
+# Exécuter en tant qu'administrateur
+
+# 1. Installer Chocolatey si non présent
+if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
+    Set-ExecutionPolicy Bypass -Scope Process -Force
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+}
+
+# 2. Installer les logiciels
+choco install -y vscode git docker-desktop nodejs python
+
+# 3. Redémarrer Docker Desktop (facultatif)
+Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+
+# 4. Ajouter Docker au PATH et lancer à la connexion
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\Docker\Docker\resources\bin", [EnvironmentVariableTarget]::Machine)
+
+Write-Host "Installation terminée. Veuillez redémarrer la machine si nécessaire." -ForegroundColor Green
 
 Pour les logiciels sous licence, je vérifie que les licences sont bien attribuées à l'utilisateur dans notre système de gestion de licences.
 
