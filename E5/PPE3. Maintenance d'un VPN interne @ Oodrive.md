@@ -55,7 +55,7 @@
 Dans le cadre de mon activité au sein d'Oodrive, entreprise certifiée SecNumCloud, je dois assurer la maintenance de l'infrastructure VPN interne permettant l'accès sécurisé aux ressources de l'entreprise pour les collaborateurs en télétravail et dans les différents bureaux. Cette infrastructure est critique car elle constitue le point d'entrée au réseau d'entreprise et doit répondre aux exigences strictes de la certification SecNumCloud.
 
 ## Objectifs :
-Assurer le bon fonctionnement et la sécurité des trois instances VPN (normale, développement et production), gérer les accès utilisateurs, effectuer les mises à jour de sécurité et maintenir la conformité avec les standards de sécurité requis par la certification SecNumCloud.
+Assurer le bon fonctionnement et la sécurité des trois instances VPN (Standard, développement et production), gérer les accès utilisateurs, effectuer les mises à jour de sécurité et maintenir la conformité avec les standards de sécurité requis par la certification SecNumCloud.
 
 ## Conditions de réalisations :
 ### Matériel :
@@ -98,7 +98,7 @@ Activité continue avec interventions planifiées mensuelles (4 heures) et maint
 - Solution hybride avec VPN managé et personnalisations internes
 
 ## Solution retenue :
-Infrastructure OpenVPN gérée en interne avec trois instances distinctes (normale, développement, production) pour répondre aux besoins spécifiques d'accès aux ressources et garantir une séparation stricte des environnements.
+Infrastructure OpenVPN gérée en interne avec trois instances distinctes (Standard, développement, production) pour répondre aux besoins spécifiques d'accès aux ressources et garantir une séparation stricte des environnements.
 
 ### Conditions initiales :
 Infrastructure VPN fonctionnelle mais nécessitant une maintenance régulière pour assurer sa conformité continue et son adaptation aux besoins évolutifs de l'entreprise.
@@ -115,7 +115,7 @@ Dans le cadre de mes responsabilités au sein de l'équipe IT d'Oodrive, j'assur
 Le VPN interne constitue la porte d'entrée sécurisée au réseau d'entreprise pour les collaborateurs en télétravail, dont le nombre a considérablement augmenté ces dernières années. Il permet également de sécuriser les communications entre les différents sites d'Oodrive et d'assurer un accès contrôlé aux ressources sensibles.
 
 Pour répondre aux besoins spécifiques d'Oodrive en termes de séparation des environnements, l'infrastructure VPN est composée de trois instances distinctes :
-- VPN Normal : pour l'accès aux ressources courantes de l'entreprise (bureautique, intranet, applications internes)
+- VPN Standard : pour l'accès aux ressources courantes de l'entreprise (bureautique, intranet, applications internes)
 - VPN Développement : pour l'accès aux environnements de développement et de test
 - VPN Production : pour l'accès aux environnements de production, hautement sécurisé et limité aux équipes opérationnelles
 
@@ -127,13 +127,12 @@ Cette organisation permet de respecter le principe de séparation des environnem
 L'infrastructure VPN d'Oodrive repose sur une architecture distribuée avec trois serveurs dédiés, chacun hébergeant une instance spécifique du VPN. Ces serveurs sont situés dans le datacenter principal d'Oodrive et bénéficient des mesures de sécurité physique et logique associées.
 
 Chaque instance VPN dispose de sa propre plage d'adresses IP privées pour éviter les conflits de routage :
-- VPN Normal : 10.10.0.0/16
+- VPN Standard : 10.10.0.0/16
 - VPN Développement : 10.20.0.0/16
 - VPN Production : 10.30.0.0/16
 
 Le schéma ci-dessous illustre l'architecture globale du réseau VPN :
 
-![Architecture du réseau VPN](Figure 1 Architecture du réseau VPN)
 
 Les connexions VPN utilisent le protocole OpenVPN en mode TLS avec une double authentification :
 - Certificat client (authentification mutuelle TLS)
@@ -149,7 +148,7 @@ Les flux réseau sont contrôlés par des pare-feux dédiés qui filtrent les ac
 
 Les trois instances VPN sont configurées de manière similaire mais avec des paramètres de sécurité et d'accès spécifiques à leur rôle.
 
-**VPN Normal :**
+**VPN Standard :**
 - Port UDP 1194
 - Chiffrement AES-256-GCM
 - Compression LZ4
@@ -158,7 +157,7 @@ Les trois instances VPN sont configurées de manière similaire mais avec des pa
 - Accès aux ressources standard de l'entreprise
 - Journalisation standard des connexions
 
-Extrait de la configuration du serveur VPN Normal :
+Extrait de la configuration du serveur VPN Standard :
 ```
 port 1194
 proto udp
@@ -388,7 +387,7 @@ Le monitoring des serveurs VPN est assuré par Zabbix qui surveille en temps ré
 Des alertes sont configurées pour notifier l'équipe d'administration en cas d'anomalie :
 - Service OpenVPN arrêté ou redémarré
 - Nombre important d'échecs d'authentification
-- Charge serveur anormalement élevée
+- Charge serveur aStandardment élevée
 - Espace disque critique
 
 **Tableau de bord de supervision :**
@@ -406,7 +405,7 @@ La mise à jour des serveurs VPN est une tâche critique qui doit être réalis�
 
 Les mises à jour sont planifiées selon leur criticité :
 - Mises à jour de sécurité critiques : application immédiate selon une procédure d'urgence
-- Mises à jour de sécurité normales : application hebdomadaire pendant une fenêtre de maintenance
+- Mises à jour de sécurité Standards : application hebdomadaire pendant une fenêtre de maintenance
 - Mises à jour fonctionnelles : application mensuelle après validation en environnement de test
 
 Chaque mise à jour fait l'objet d'une notification préalable aux utilisateurs, sauf en cas d'urgence critique.
@@ -507,9 +506,9 @@ source vars
 
 4. Création du fichier de configuration spécifique pour l'instance VPN concernée :
 
-Pour le VPN normal :
+Pour le VPN Standard :
 ```bash
-./generate-config.sh utilisateur normal > utilisateur-normal.ovpn
+./generate-config.sh utilisateur Standard > utilisateur-Standard.ovpn
 ```
 
 Pour le VPN développement :
@@ -565,7 +564,7 @@ La révocation des certificats est nécessaire lors du départ d'un collaborateu
 3. Déploiement de la CRL sur les serveurs VPN :
 
 ```bash
-scp crl.pem admin@vpn-normal:/etc/openvpn/server/
+scp crl.pem admin@vpn-Standard:/etc/openvpn/server/
 scp crl.pem admin@vpn-dev:/etc/openvpn/server/
 scp crl.pem admin@vpn-prod:/etc/openvpn/server/
 ```
@@ -583,7 +582,7 @@ La création d'un compte utilisateur VPN suit un processus formalisé qui commen
 
 1. Soumission de la demande via le portail intranet avec les informations suivantes :
    - Identité du demandeur
-   - Profil d'accès souhaité (normal, développement, production)
+   - Profil d'accès souhaité (Standard, développement, production)
    - Justification professionnelle
    - Validation hiérarchique
 
@@ -604,7 +603,7 @@ sudo passwd vpn-utilisateur
 2. Attribution des groupes d'accès selon le profil :
 
 ```bash
-# Pour accès VPN normal
+# Pour accès VPN Standard
 sudo usermod -a -G vpn-users vpn-utilisateur
 
 # Pour accès VPN développement
@@ -703,3 +702,311 @@ sudo gpasswd -d vpn-utilisateur vpn-prod
 
 # V. Surveillance et résolution d'incidents :
 ## a. Outils de monitoring :
+
+La surveillance continue de l'infrastructure VPN est essentielle pour garantir sa disponibilité et sa sécurité. Oodrive utilise une combinaison d'outils pour assurer un monitoring complet de l'environnement VPN.
+
+**Zabbix :**
+
+Zabbix est l'outil principal de monitoring utilisé pour la surveillance en temps réel des serveurs VPN. Il est configuré pour collecter et analyser divers indicateurs :
+
+- Disponibilité des services OpenVPN (vérification toutes les 30 secondes)
+- Métriques système : CPU, mémoire, espace disque, charge système
+- Nombre de connexions VPN actives par instance
+- Bande passante utilisée sur les interfaces réseau
+- Temps de réponse des serveurs
+
+Des seuils d'alerte sont configurés pour chaque métrique avec plusieurs niveaux de gravité :
+- Information : notification simple sans action requise
+- Avertissement : situation à surveiller
+- Critique : intervention immédiate requise
+
+Exemple de configuration d'un élément de monitoring dans Zabbix :
+```
+Name: OpenVPN Service Status
+Key: service.info[openvpn@server]
+Type: Zabbix agent
+Update interval: 30s
+```
+
+**Elastic Stack :**
+
+La suite Elastic Stack (Elasticsearch, Logstash, Kibana) est utilisée pour la collecte, l'indexation et l'analyse des logs générés par l'infrastructure VPN :
+
+- Collecte des logs via Filebeat sur chaque serveur VPN
+- Traitement et enrichissement via Logstash
+- Indexation dans Elasticsearch
+- Visualisation et analyse dans Kibana
+
+Des tableaux de bord spécifiques sont configurés dans Kibana pour différents cas d'usage :
+- Monitoring des connexions (succès/échecs)
+- Analyse de sécurité (détection d'anomalies)
+- Suivi de performance
+- Audit de conformité
+
+**Alertes et notifications :**
+
+Un système d'alerte est configuré pour notifier l'équipe d'infrastructure en cas d'anomalie détectée :
+
+- Alertes par email pour les problèmes non critiques
+- Notifications SMS pour les incidents critiques
+- Intégration avec le système de ticketing pour la création automatique d'incidents
+- Escalade automatique vers l'astreinte en dehors des heures ouvrées
+
+Exemple de règle d'alerte dans Zabbix :
+```
+Name: OpenVPN Service Down
+Expression: {vpn-prod:service.info[openvpn@server].last()}=0
+Severity: High
+Actions: Send SMS to on-call team, Create incident ticket
+```
+
+## b. Procédures d'intervention :
+
+Des procédures d'intervention standardisées sont définies pour faire face aux incidents les plus courants sur l'infrastructure VPN.
+
+**Indisponibilité du service VPN :**
+
+En cas de détection d'une indisponibilité du service VPN :
+
+1. Vérification du statut du service sur le serveur concerné :
+```bash
+ssh admin@vpn-server
+sudo systemctl status openvpn@server
+```
+
+2. Analyse des logs pour identifier la cause :
+```bash
+sudo tail -n 100 /var/log/openvpn/openvpn.log
+sudo journalctl -u openvpn@server --since "10 minutes ago"
+```
+
+3. Redémarrage du service si nécessaire :
+```bash
+sudo systemctl restart openvpn@server
+```
+
+4. Vérification du bon fonctionnement après intervention :
+```bash
+sudo systemctl status openvpn@server
+ping 10.10.0.1
+```
+
+5. Si le problème persiste, activation du serveur de secours et escalade vers le niveau 2
+
+**Échecs d'authentification massifs :**
+
+En cas de détection d'un nombre anormal d'échecs d'authentification :
+
+1. Analyse des logs d'authentification pour identifier les sources :
+```bash
+grep "Auth failed" /var/log/openvpn/openvpn.log | tail -n 50
+```
+
+2. Vérification des tentatives par adresse IP :
+```bash
+grep "Auth failed" /var/log/openvpn/openvpn.log | awk '{print $9}' | sort | uniq -c | sort -nr
+```
+
+3. Si une attaque est suspectée, blocage temporaire des adresses IP concernées :
+```bash
+ssh admin@firewall
+sudo iptables -I INPUT -s 203.0.113.x -p udp --dport 1194 -j DROP
+sudo iptables-save > /etc/iptables/rules.v4
+```
+
+4. Notification au responsable sécurité pour analyse approfondie
+
+**Problèmes de performance :**
+
+En cas de ralentissements signalés par les utilisateurs :
+
+1. Vérification de la charge système sur les serveurs VPN :
+```bash
+ssh admin@vpn-server
+top -b -n 1
+```
+
+2. Analyse du nombre de connexions simultanées :
+```bash
+cat /var/log/openvpn/openvpn-status.log | grep "ROUTING TABLE" -A 500 | wc -l
+```
+
+3. Vérification de l'utilisation de la bande passante :
+```bash
+vnstat -h -i eth0
+```
+
+4. Si la charge est trop importante, mise en place de limitations de bande passante temporaires :
+```bash
+sudo tc qdisc add dev tun0 root tbf rate 5mbit burst 32kbit latency 50ms
+```
+
+5. Planification d'un renforcement des ressources si nécessaire
+
+## c. Plan de reprise d'activité :
+
+Un plan de reprise d'activité (PRA) est défini pour l'infrastructure VPN afin de garantir la continuité du service en cas d'incident majeur.
+
+**Architecture de secours :**
+
+Chaque instance VPN dispose d'un serveur de secours configuré en standby :
+- Réplication régulière de la configuration
+- Synchronisation des certificats et de la CRL
+- Tests mensuels d'activation
+
+La bascule vers les serveurs de secours peut être manuelle ou automatique selon la gravité de l'incident.
+
+**Procédure de bascule :**
+
+En cas d'incident nécessitant une bascule vers le serveur de secours :
+
+1. Activation du serveur de secours :
+```bash
+ssh admin@vpn-backup
+sudo cp /etc/openvpn/server/server.conf.standby /etc/openvpn/server/server.conf
+sudo systemctl start openvpn@server
+```
+
+2. Modification des enregistrements DNS pour rediriger les connexions :
+```bash
+ssh admin@dns-server
+sudo pdnsutil replace-rrset internal.oodrive.com vpn 300 A 192.168.1.x
+```
+
+3. Notification aux utilisateurs via le système d'alerte
+
+4. Surveillance du bon fonctionnement du serveur de secours
+
+**Procédure de restauration :**
+
+Une fois l'incident résolu et le serveur principal réparé :
+
+1. Synchronisation des données de session du serveur de secours vers le serveur principal
+2. Validation du bon fonctionnement du serveur principal
+3. Modification des enregistrements DNS pour rediriger les connexions vers le serveur principal
+4. Notification aux utilisateurs via le système d'alerte
+5. Surveillance du bon fonctionnement après bascule retour
+
+**Tests de reprise :**
+
+Des tests réguliers du PRA sont effectués pour garantir son efficacité :
+- Tests mensuels de bascule manuelle planifiés pendant les fenêtres de maintenance
+- Test annuel complet avec simulation d'incident majeur
+- Analyse post-test pour identifier les axes d'amélioration
+
+# VI. Documentation et conformité :
+## a. Mise à jour de la documentation :
+
+La documentation de l'infrastructure VPN est un élément essentiel pour sa maintenance et sa conformité avec les exigences SecNumCloud.
+
+**Types de documentation maintenue :**
+
+- Documentation technique :
+  - Architecture détaillée de l'infrastructure VPN
+  - Procédures d'installation et de configuration
+  - Scripts et outils d'administration
+  - Procédures de maintenance
+
+- Documentation opérationnelle :
+  - Procédures d'exploitation courante
+  - Guides de résolution d'incidents
+  - Calendrier des maintenances planifiées
+  - Journal des interventions
+
+- Documentation de sécurité :
+  - Politique de sécurité VPN
+  - Analyse de risques
+  - Résultats des audits de sécurité
+  - Procédures de gestion des incidents
+
+- Documentation utilisateur :
+  - Guides d'installation du client VPN
+  - Procédures de connexion
+  - FAQ et résolution des problèmes courants
+
+**Processus de mise à jour :**
+
+La documentation est maintenue à jour selon un processus formalisé :
+
+1. Identification des modifications nécessaires lors de chaque intervention
+2. Mise à jour de la documentation dans le système de gestion documentaire
+3. Revue par un pair pour validation
+4. Publication de la nouvelle version
+5. Notification aux parties prenantes
+
+Chaque document contient un historique des modifications avec :
+- Date de modification
+- Auteur
+- Nature des changements
+- Version du document
+
+**Stockage et accès :**
+
+La documentation est stockée dans une GED (Gestion Électronique des Documents) sécurisée avec :
+- Contrôle des accès basé sur les rôles
+- Versionnement des documents
+- Historique des modifications
+- Workflow d'approbation pour les documents critiques
+
+## b. Audits de sécurité :
+
+Des audits de sécurité réguliers sont réalisés pour vérifier la conformité de l'infrastructure VPN avec les exigences SecNumCloud et les bonnes pratiques de sécurité.
+
+**Types d'audits réalisés :**
+
+- Audits internes trimestriels par l'équipe sécurité d'Oodrive
+- Audits externes annuels par un prestataire spécialisé
+- Tests d'intrusion annuels ciblant spécifiquement l'infrastructure VPN
+- Revue de configuration mensuelle
+
+**Points de contrôle des audits :**
+
+Les audits de sécurité couvrent les aspects suivants :
+- Conformité de la configuration avec les recommandations ANSSI
+- Vérification des niveaux de chiffrement
+- Test des mécanismes d'authentification
+- Analyse des journaux d'événements
+- Vérification des procédures de gestion des certificats
+- Test des mécanismes de filtrage réseau
+- Vérification de l'application des correctifs de sécurité
+
+**Gestion des non-conformités :**
+
+En cas de détection d'une non-conformité lors d'un audit :
+
+1. Évaluation de la criticité et de l'impact
+2. Définition d'un plan de remédiation avec des échéances
+3. Mise en œuvre des actions correctives
+4. Vérification de l'efficacité des corrections
+5. Mise à jour de la documentation
+
+**Rapport de conformité SecNumCloud :**
+
+Un rapport de conformité spécifique est maintenu pour les exigences SecNumCloud liées à l'infrastructure VPN :
+
+| Exigence | Statut | Evidence | 
+|----------|--------|----------|
+| Chiffrement AES-256 | Conforme | Configuration OpenVPN |
+| Double authentification | Conforme | Configuration auth |
+| Journalisation complète | Conforme | Elastic Stack |
+| Révocation certificats | Conforme | Procédure testée |
+| Séparation des environnements | Conforme | Architecture réseau |
+
+# VII. Conclusion :
+
+La maintenance de l'infrastructure VPN d'Oodrive représente un enjeu crucial pour garantir l'accès sécurisé aux ressources de l'entreprise, particulièrement dans un contexte de télétravail accru et d'exigences strictes liées à la certification SecNumCloud.
+
+Ce projet m'a permis de mettre en œuvre une approche structurée de la gestion d'une infrastructure critique, en abordant tous les aspects de son cycle de vie :
+- Architecture sécurisée avec séparation des environnements
+- Gestion rigoureuse des certificats et des accès
+- Procédures de maintenance formalisées
+- Monitoring et détection d'incidents
+- Plan de reprise d'activité éprouvé
+- Documentation complète et à jour
+- Conformité continue avec les exigences de sécurité
+
+L'infrastructure VPN mise en place répond pleinement aux exigences de la certification SecNumCloud tout en offrant une expérience utilisateur fluide pour les collaborateurs en télétravail. La séparation en trois instances distinctes (normale, développement, production) permet un contrôle fin des accès aux ressources selon les profils utilisateurs, renforçant ainsi la sécurité globale du système d'information d'Oodrive.
+
+Les procédures de maintenance régulière et les mécanismes de monitoring mis en place permettent d'assurer une disponibilité optimale du service tout en garantissant sa sécurité. Le plan de reprise d'activité testé régulièrement assure quant à lui la continuité du service en cas d'incident majeur.
+
+Cette expérience a renforcé mes compétences en gestion d'infrastructures critiques et en sécurisation des accès distants, des domaines particulièrement stratégiques dans le contexte actuel où le télétravail est devenu une norme pour de nombreuses entreprises.
