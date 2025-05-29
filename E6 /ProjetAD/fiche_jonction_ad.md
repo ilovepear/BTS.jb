@@ -40,11 +40,15 @@ Votre machine virtuelle doit avoir :
 
 **Important** : Cette configuration doit être appliquée à chaque démarrage de la machine.
 
+![Capture d'écran 2025-04-15 015600](https://github.com/user-attachments/assets/ba5e6934-b9ac-4f69-9702-392905e9cad4)
+
 ```bash
 # Configuration de l'interface réseau interne (enp0s3)
 sudo ip addr flush dev enp0s3
 sudo ip addr add 192.168.10.20/24 dev enp0s3
 sudo ip link set enp0s3 up
+
+![Capture d'écran 2025-04-15 015659](https://github.com/user-attachments/assets/af8ffa9c-05a4-4c75-bf4b-22a75250deca)
 
 # Configuration DNS pour le domaine AD
 sudo resolvectl dns enp0s3 192.168.10.1
@@ -63,7 +67,10 @@ sudo tee /etc/resolv.conf > /dev/null << EOF
 nameserver 192.168.10.1
 search hn.gua.local
 domain hn.gua.local
-EOF
+ou depuis l'interface graphique, en allant dans réseau puis :
+
+![Capture d'écran 2025-04-14 214902](https://github.com/user-attachments/assets/57b717e3-cc12-4b2c-8e87-aaa8f7b7b3ca)
+
 
 # Protéger le fichier contre les modifications automatiques
 sudo chattr +i /etc/resolv.conf
@@ -114,6 +121,8 @@ nslookup 192.168.10.1
 
 ### Installation des outils de jonction AD
 
+![image](https://github.com/user-attachments/assets/8023b6f8-0e0a-4aaf-bd99-25c5585c20be)
+
 ```bash
 sudo apt update && sudo apt install -y \
     realmd \
@@ -160,9 +169,12 @@ sudo realm discover hn.gua.local
 ```
 
 **Résultat attendu** :
+![Capture d'écran 2025-04-15 015123](https://github.com/user-attachments/assets/0a3d2dcf-4955-41fd-8536-dc654a60969c)
+![Capture d'écran 2025-04-15 015144](https://github.com/user-attachments/assets/ca35b396-89b9-45e0-b54b-f0e5465d884d)
 ```
 hn.gua.local
   type: kerberos
+
   realm-name: HN.GUA.LOCAL
   domain-name: hn.gua.local
   configured: no
@@ -258,6 +270,9 @@ sudo nano /etc/pam.d/common-session
 
 # Ajouter cette ligne si elle n'existe pas (à la fin du fichier) :
 # session optional pam_mkhomedir.so skel=/etc/skel umask=022
+
+![Capture d'écran 2025-04-13 224239](https://github.com/user-attachments/assets/cdf4d47a-03f6-465d-909f-2c1699b42268)
+
 
 # Vérifier également le fichier common-account
 sudo nano /etc/pam.d/common-account
@@ -515,6 +530,7 @@ Une fois toutes les étapes terminées, vous devriez pouvoir :
    # ou
    ssh j.boungo@localhost
    ```
+![Capture d'écran 2025-05-28 135300](https://github.com/user-attachments/assets/cd2bb6b4-02ff-4957-b65d-dbd3c1eed136)
 
 2. **Vérifier l'environnement utilisateur** :
    ```bash
@@ -557,4 +573,4 @@ En cas de problème persistant, consultez :
 - Les logs système : `journalctl -u sssd`
 - La documentation officielle Ubuntu pour l'intégration AD
 
-**Contact support** : [Indiquer ici les informations de contact du support technique]
+**Contact support** : support@healthnorthclinique.org
