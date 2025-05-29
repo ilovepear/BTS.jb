@@ -11,6 +11,9 @@
   - Active Directory Domain Services (AD DS)
   - DNS Server
   - Group Policy Management
+
+![Capture d'écran 2025-04-11 155147](https://github.com/user-attachments/assets/38444425-b479-4c6a-8544-57323c16116e)
+
 - **Sécurité réseau** : UFW (Uncomplicated Firewall)
 
 ### Architecture réseau
@@ -36,6 +39,17 @@ Install-ADDSForest `
   -SysvolPath "C:\Windows\SYSVOL" `
   -Force:$true
 ```
+
+Equivalent graphique :
+
+![Capture d'écran 2025-04-11 154555](https://github.com/user-attachments/assets/576247b5-fc94-4ca1-9c4b-f1f2b260a129)
+![Capture d'écran 2025-04-11 145836](https://github.com/user-attachments/assets/cffac97c-586e-47eb-9226-3982caa7ae7d)
+![Capture d'écran 2025-04-11 145812](https://github.com/user-attachments/assets/871ecbd4-b1f7-4c88-98a7-1e6802629a21)
+![Capture d'écran 2025-04-11 145755](https://github.com/user-attachments/assets/251e8bfb-e991-4662-ad2f-7f1ac0aa90f6)
+![Capture d'écran 2025-04-11 145723](https://github.com/user-attachments/assets/4cf5e26c-acf0-46f1-96a2-228b7674cb5f)
+![Capture d'écran 2025-04-11 142610](https://github.com/user-attachments/assets/1c0a9ca7-9cd1-4741-ad0e-f2bfe80f434a)
+
+
 
 ### Structure organisationnelle
 ```
@@ -564,13 +578,27 @@ New-GPLink -Name "GPO_Security_Baseline" -Target "OU=Workstations,DC=hn,DC=gua,D
 ```
 Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies de compte > Stratégie de mot de passe
 
-- Appliquer l'historique des mots de passe : 24 mots de passe mémorisés
-- Âge maximal du mot de passe : 60 jours (90 max selon la politique de sécurité)
-- Âge minimal du mot de passe : 2 jours
+- Appliquer l'historique des mots de passe : 8 mots de passe mémorisés
+- Âge maximal du mot de passe : 90 jours 
 - Longueur minimale du mot de passe : 14 caractères (comptes privilégiés : 16)
 - Le mot de passe doit respecter des exigences de complexité : Activé
 - Stocker les mots de passe en utilisant un chiffrement réversible : Désactivé
 ```
+![Capture d'écran 2025-04-13 134430](https://github.com/user-attachments/assets/1d06c334-719b-40f6-ae38-0bdd3109ae90)
+
+![Capture d'écran 2025-04-11 171220](https://github.com/user-attachments/assets/6ac4714c-7ef1-4552-b194-dfbb9e65512f)
+
+![Capture d'écran 2025-04-11 171138](https://github.com/user-attachments/assets/cb77f705-0fa4-4839-b7e2-6079d81e1f9c)
+
+![Capture d'écran 2025-04-11 171039](https://github.com/user-attachments/assets/97ee1adf-1a18-4c82-91d3-c95b6787a163)
+
+![Capture d'écran 2025-04-11 171007](https://github.com/user-attachments/assets/3ae5cd0e-822d-46c8-962c-6c2408308ad5)
+
+![Capture d'écran 2025-04-11 170926](https://github.com/user-attachments/assets/ccff46b6-a711-47b5-9ac1-184c4297e7ed)
+
+![Capture d'écran 2025-04-11 170900](https://github.com/user-attachments/assets/864a7152-d439-46ea-a951-49e9d4164279)
+
+![Capture d'écran 2025-04-11 170211](https://github.com/user-attachments/assets/c5560397-6fe0-444e-b4ee-7fd541b98c97)
 
 #### Politique de verrouillage de compte renforcée
 ```
