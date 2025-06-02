@@ -234,83 +234,113 @@ Get-GPInheritance -Target "OU=Workstations,DC=hn,DC=gua,DC=local"
 Invoke-GPUpdate -Computer "dc1.hn.gua.local" -Force
 ```
 
-## 5. CONFIGURATION UFW (UNCOMPLICATED FIREWALL)
+## 5. CONFIGURATION FIREWALL (NetFIREWALL)
+### ÉTAPE 1 : Configuration de Base Sécurisée
+```powershell
+# Principe du moindre privilège - Tout est bloqué par défaut
+Set-NetFirewallProfile -Profile Domain,Public,Private -DefaultInboundAction Block -DefaultOutboundAction Block
 
-### Installation et activation d'UFW
-```bash
-# Sur un serveur Linux hébergeant des services AD (si applicable)
-sudo apt update && sudo apt install ufw
-
-# Activation d'UFW
-sudo ufw enable
-
-# Vérification du statut
-sudo ufw status verbose
+Write-Host "✅ Configuration restrictive appliquée - Conformité HIPAA"
 ```
+**Pourquoi cette étape ?**
+En environnement médical, la protection des données patients (ePHI) est cruciale. Le principe du "moindre privilège" impose de bloquer tout trafic non nécessaire.
 
-### Règles de pare-feu pour Active Directory
-```bash
-# Ports essentiels pour AD DS
-sudo ufw allow 53/tcp comment "DNS TCP"
-sudo ufw allow 53/udp comment "DNS UDP"
-sudo ufw allow 88/tcp comment "Kerberos TCP"
-sudo ufw allow 88/udp comment "Kerberos UDP"
-sudo ufw allow 135/tcp comment "RPC Endpoint Mapper"
-sudo ufw allow 139/tcp comment "NetBIOS Session Service"
-sudo ufw allow 389/tcp comment "LDAP TCP"
-sudo ufw allow 389/udp comment "LDAP UDP"
-sudo ufw allow 445/tcp comment "SMB over TCP"
-sudo ufw allow 464/tcp comment "Kerberos Password Change TCP"
-sudo ufw allow 464/udp comment "Kerberos Password Change UDP"
-sudo ufw allow 636/tcp comment "LDAPS"
-sudo ufw allow 3268/tcp comment "Global Catalog"
-sudo ufw allow 3269/tcp comment "Global Catalog SSL"
+### ÉTAPE 2 : Services d'Authentification Active Directory
+```powershell
+# DNS - Résolution de noms (Port 53)
+New-NetFirewallRule -DisplayName "DNS TCP" -Direction Inbound -Protocol TCP -LocalPort 53 -Action Allow -Profile Domain
+New-NetFirewallRule -DisplayName "DNS UDP" -Direction Inbound -Protocol UDP -LocalPort 53 -Action Allow -Profile Domain
 
-# Plage RPC dynamique (Windows Server 2008+)
-sudo ufw allow 49152:65535/tcp comment "RPC Dynamic Range"
+# Kerberos - Authentification sécurisée (Port 88)
+New-NetFirewallRule -DisplayName "Kerberos TCP" -Direction Inbound -Protocol TCP -LocalPort 88 -Action Allow -Profile Domain
+New-NetFirewallRule -DisplayName "Kerberos UDP" -Direction Inbound -Protocol UDP -LocalPort 88 -Action Allow -Profile Domain
 
-# Ports pour la réplication AD (entre contrôleurs de domaine)
-sudo ufw allow 1024:5000/tcp comment "RPC for AD Replication"
-
-# Ports pour les GPO et SYSVOL
-sudo ufw allow 445/tcp comment "SMB for SYSVOL"
-
-# SSH pour l'administration à distance (si applicable)
-sudo ufw allow 22/tcp comment "SSH"
-
-# RDP pour l'administration Windows (si applicable)
-sudo ufw allow 3389/tcp comment "Remote Desktop"
+# LDAP - Annuaire utilisateurs (Port 389/636)
+New-NetFirewallRule -DisplayName "LDAP TCP" -Direction Inbound -Protocol TCP -LocalPort 389 -Action Allow -Profile Domain
+New-NetFirewallRule -DisplayName "LDAPS" -Direction Inbound -Protocol TCP -LocalPort 636 -Action Allow -Profile Domain
 ```
+**Explication technique :**
+- **DNS** : Permet la résolution des noms d'ordinateurs en adresses IP
+- **Kerberos** : Protocole d'authentification sécurisé d'Active Directory
+- **LDAP/LDAPS** : Accès à l'annuaire AD (LDAPS = version chiffrée)
 
-### Configuration avancée UFW
-```bash
-# Restriction par adresse source (exemple)
-sudo ufw allow from 192.168.10.0/24 to any port 389 comment "LDAP from internal network only"
-sudo ufw allow from 192.168.10.0/24 to any port 445 comment "SMB from internal network only"
+### ÉTAPE 3 : Sécurisation Réseau (Restriction Géographique)
+```powershell
+# Restriction LDAP au réseau interne uniquement
+New-NetFirewallRule -DisplayName "LDAP Réseau Interne" -Direction Inbound -Protocol TCP -LocalPort 389 -RemoteAddress 192.168.10.0/24 -Action Allow -Profile Domain
 
-# Blocage des connexions sortantes non autorisées
-sudo ufw default deny outgoing
-sudo ufw allow out 53 comment "Allow DNS queries"
-sudo ufw allow out 80 comment "Allow HTTP"
-sudo ufw allow out 443 comment "Allow HTTPS"
-sudo ufw allow out 123 comment "Allow NTP"
-
-# Journalisation
-sudo ufw logging on
+# Blocage réseaux externes
+New-NetFirewallRule -DisplayName "Blocage 10.x" -Direction Inbound -RemoteAddress 10.0.0.0/8 -Action Block
+New-NetFirewallRule -DisplayName "Blocage 172.16.x" -Direction Inbound -RemoteAddress 172.16.0.0/12 -Action Block
 ```
+**Principe de défense en profondeur :**
+On limite l'accès aux services critiques au réseau interne uniquement. Cela protège contre les intrusions externes.
 
-### Règles UFW spécifiques pour l'environnement de test
-```bash
-# Autoriser le réseau interne VirtualBox
-sudo ufw allow from 192.168.10.0/24 comment "VirtualBox internal network"
+### ÉTAPE 4 : Services Windows pour Active Directory
+```powershell
+# RPC Endpoint Mapper (Port 135) - Communication AD
+New-NetFirewallRule -DisplayName "RPC Endpoint" -Direction Inbound -Protocol TCP -LocalPort 135 -Action Allow -Profile Domain
 
-# Autoriser les connexions depuis la machine Ubuntu (192.168.10.20)
-sudo ufw allow from 192.168.10.20 comment "Ubuntu client machine"
+# SMB (Port 445) - Partage SYSVOL/NETLOGON
+New-NetFirewallRule -DisplayName "SMB SYSVOL" -Direction Inbound -Protocol TCP -LocalPort 445 -RemoteAddress 192.168.10.0/24 -Action Allow -Profile Domain
 
-# Blocage des autres réseaux
-sudo ufw deny from 10.0.0.0/8
-sudo ufw deny from 172.16.0.0/12
+# Changement mot de passe Kerberos (Port 464)
+New-NetFirewallRule -DisplayName "Kerberos Password TCP" -Direction Inbound -Protocol TCP -LocalPort 464 -Action Allow -Profile Domain
+New-NetFirewallRule -DisplayName "Kerberos Password UDP" -Direction Inbound -Protocol UDP -LocalPort 464 -Action Allow -Profile Domain
+
+# Global Catalog (Ports 3268/3269) - Recherche forêt AD
+New-NetFirewallRule -DisplayName "Global Catalog" -Direction Inbound -Protocol TCP -LocalPort 3268 -Action Allow -Profile Domain
+New-NetFirewallRule -DisplayName "Global Catalog SSL" -Direction Inbound -Protocol TCP -LocalPort 3269 -Action Allow -Profile Domain
 ```
+**Rôle de chaque service :**
+- **RPC** : Communication entre services Windows
+- **SMB** : Partage des politiques de groupe (GPO)
+- **Global Catalog** : Recherche dans toute la forêt AD (environnements multi-domaines)
+
+### ÉTAPE 5 : Administration Sécurisée
+```powershell
+# RDP limité à l'administrateur IT
+New-NetFirewallRule -DisplayName "RDP Admin" -Direction Inbound -Protocol TCP -LocalPort 3389 -RemoteAddress 192.168.10.100 -Action Allow -Profile Domain
+```
+**Bonnes pratiques :** L'accès RDP est restreint à une seule machine d'administration pour limiter les risques.
+
+### ÉTAPE 6 : Trafic Sortant Autorisé
+```powershell
+# DNS sortant pour résolution externe
+New-NetFirewallRule -DisplayName "DNS Sortant" -Direction Outbound -Protocol UDP -RemotePort 53 -Action Allow
+
+# HTTPS pour mises à jour Windows
+New-NetFirewallRule -DisplayName "HTTPS Updates" -Direction Outbound -Protocol TCP -RemotePort 443 -Action Allow
+
+# NTP pour synchronisation temps (crucial pour logs d'audit)
+New-NetFirewallRule -DisplayName "NTP Sync" -Direction Outbound -Protocol UDP -RemotePort 123 -Action Allow
+```
+**Pourquoi autoriser le trafic sortant ?**
+- Mises à jour de sécurité Windows essentielles
+- Synchronisation temporelle pour la traçabilité HIPAA
+
+### ÉTAPE 7 : Journalisation et Audit (Exigence HIPAA)
+```powershell
+# Journalisation complète pour audit de conformité
+Set-NetFirewallProfile -Profile Domain,Public,Private -LogAllowed True -LogBlocked True -LogMaxSizeKilobytes 8192
+
+# Audit des connexions utilisateurs
+auditpol /set /subcategory:"Logon" /success:enable /failure:enable
+auditpol /set /subcategory:"Account Logon" /success:enable /failure:enable
+
+Write-Host "✅ Audit configuré - Conformité HIPAA 164.312(b)"
+```
+**Importance de l'audit :** HIPAA impose la traçabilité de tous les accès aux données patients.
+
+### ÉTAPE 8 : Sécurisation Préventive
+```powershell
+# Blocage des protocoles non sécurisés
+New-NetFirewallRule -DisplayName "Blocage Telnet" -Direction Inbound -Protocol TCP -LocalPort 23 -Action Block
+New-NetFirewallRule -DisplayName "Blocage FTP" -Direction Inbound -Protocol TCP -LocalPort 21 -Action Block
+New-NetFirewallRule -DisplayName "Blocage SNMP" -Direction Inbound -Protocol UDP -LocalPort 161 -Action Block
+```
+**Principe de sécurité :** Bloquer explicitement les protocoles dangereux (non chiffrés).
+
 
 ## 6. MONITORING ET MAINTENANCE (PRODUCTION)
 
