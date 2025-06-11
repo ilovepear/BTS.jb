@@ -1,6 +1,4 @@
-# Fiche Utilisateur - Jonction Ubuntu Desktop au domaine Active Directory
-
-## 📋 Informations générales
+# Informations générales
 
 **Objectif** : Intégrer une machine Ubuntu Desktop dans le domaine Active Directory `hn.gua.local`
 
@@ -12,9 +10,9 @@
 
 ---
 
-## 🔧 Prérequis et vérifications
+# Prérequis et vérifications
 
-### 1. Vérification de la connectivité réseau
+## 1. Vérification de la connectivité réseau
 
 Avant de commencer, vérifiez que votre machine peut communiquer avec le contrôleur de domaine :
 
@@ -26,7 +24,7 @@ ping 192.168.10.1
 nslookup hn.gua.local 192.168.10.1
 ```
 
-### 2. Configuration VirtualBox requise
+## 2. Configuration VirtualBox requise
 
 Votre machine virtuelle doit avoir :
 - **Carte réseau 1** : Réseau interne (intnet) - pour la communication AD
@@ -34,9 +32,9 @@ Votre machine virtuelle doit avoir :
 
 ---
 
-## 🛠️ Étape 1 - Configuration réseau Ubuntu
+# Étape 1 - Configuration réseau Ubuntu
 
-### Configuration des interfaces réseau
+## Configuration des interfaces réseau
 
 **Important** : Cette configuration doit être appliquée à chaque démarrage de la machine.
 
@@ -55,7 +53,7 @@ sudo resolvectl dns enp0s3 192.168.10.1
 sudo resolvectl domain enp0s3 hn.gua.local
 ```
 
-### Configuration du fichier resolv.conf
+## Configuration du fichier resolv.conf
 
 ```bash
 # Sauvegarder le fichier resolv.conf original
@@ -76,7 +74,7 @@ ou depuis l'interface graphique, en allant dans réseau puis :
 sudo chattr +i /etc/resolv.conf
 ```
 
-### Activation temporaire d'Internet (si nécessaire)
+## Activation temporaire d'Internet (si nécessaire)
 
 ```bash
 # Pour les mises à jour de paquets - temporairement déprotéger resolv.conf
@@ -95,7 +93,7 @@ EOF
 sudo chattr +i /etc/resolv.conf
 ```
 
-### Vérification de la configuration
+## Vérification de la configuration
 
 ```bash
 # Vérifier les adresses IP
@@ -117,9 +115,9 @@ nslookup 192.168.10.1
 
 ---
 
-## 📦 Étape 2 - Installation des paquets requis
+# Étape 2 - Installation des paquets requis
 
-### Installation des outils de jonction AD
+## Installation des outils de jonction AD
 
 ![image](https://github.com/user-attachments/assets/8023b6f8-0e0a-4aaf-bd99-25c5585c20be)
 
@@ -145,7 +143,7 @@ sudo apt update && sudo apt install -y \
 
 ---
 
-## ⏰ Étape 3 - Synchronisation temporelle
+# Étape 3 - Synchronisation temporelle
 
 La synchronisation avec le contrôleur de domaine est cruciale :
 
@@ -159,9 +157,9 @@ timedatectl status
 
 ---
 
-## 🔍 Étape 4 - Découverte du domaine
+# 🔍 Étape 4 - Découverte du domaine
 
-### Vérification de la découverte du domaine
+## Vérification de la découverte du domaine
 
 ```bash
 # Découvrir le domaine AD
@@ -190,9 +188,9 @@ hn.gua.local
 
 ---
 
-## 🏗️ Étape 5 - Configuration SSSD
+# Étape 5 - Configuration SSSD
 
-### Création du fichier de configuration SSSD
+## Création du fichier de configuration SSSD
 
 ```bash
 # Créer le fichier de configuration
@@ -224,9 +222,9 @@ sudo chown root:root /etc/sssd/sssd.conf
 
 ---
 
-## 🔗 Étape 6 - Jonction au domaine
+# 🔗 Étape 6 - Jonction au domaine
 
-### Rejoindre le domaine Active Directory
+## Rejoindre le domaine Active Directory
 
 ```bash
 # Joindre le domaine avec le compte Administrateur
@@ -235,7 +233,7 @@ sudo realm join --user=Administrateur hn.gua.local
 
 **Attention** : Vous serez invité à saisir le mot de passe du compte `Administrateur` du domaine.
 
-### Vérification de la jonction
+## Vérification de la jonction
 
 ```bash
 # Vérifier que la machine a rejoint le domaine
@@ -247,16 +245,16 @@ sudo systemctl status sssd
 
 ---
 
-## ⚙️ Étape 7 - Configuration post-jonction et gestion des sessions
+# Étape 7 - Configuration post-jonction et gestion des sessions
 
-### Autoriser tous les utilisateurs du domaine
+## Autoriser tous les utilisateurs du domaine
 
 ```bash
 # Permettre à tous les utilisateurs du domaine de se connecter
 sudo realm permit --all
 ```
 
-### Configuration PAM pour la création automatique des répertoires home
+## Configuration PAM pour la création automatique des répertoires home
 
 ```bash
 # Activer la création automatique des dossiers utilisateurs
@@ -287,7 +285,7 @@ sudo nano /etc/pam.d/common-account
 session optional pam_mkhomedir.so skel=/etc/skel umask=022
 ```
 
-### Configuration des sessions utilisateur AD
+## Configuration des sessions utilisateur AD
 
 ```bash
 # S'assurer que les utilisateurs AD ont un shell par défaut
@@ -305,7 +303,7 @@ sudo chmod 755 /etc/skel
 echo "umask 022" | sudo tee -a /etc/skel/.bashrc
 ```
 
-### Redémarrage des services
+## Redémarrage des services
 
 ```bash
 # Redémarrer les services nécessaires
@@ -317,9 +315,9 @@ sudo systemctl enable oddjobd
 
 ---
 
-## ✅ Étape 8 - Tests et vérifications des sessions utilisateur
+# Étape 8 - Tests et vérifications des sessions utilisateur
 
-### Test de résolution des utilisateurs AD
+## Test de résolution des utilisateurs AD
 
 ```bash
 # Tester la résolution d'un utilisateur du domaine
@@ -329,7 +327,7 @@ getent passwd j.boungo
 getent passwd | grep -v "^#"
 ```
 
-### Test d'authentification et création de session propre
+## Test d'authentification et création de session propre
 
 ```bash
 # Méthode 1 : Création d'une session interactive complète
@@ -342,7 +340,7 @@ ssh j.boungo@localhost
 su - j.boungo
 ```
 
-### Vérification de l'environnement utilisateur
+## Vérification de l'environnement utilisateur
 
 Une fois connecté en tant que `j.boungo`, vérifiez :
 
@@ -364,7 +362,7 @@ echo $SHELL
 klist  # Vérifier les tickets Kerberos
 ```
 
-### Vérification des services
+## Vérification des services
 
 ```bash
 # Vérifier l'état des services critiques
@@ -376,7 +374,7 @@ sudo systemctl status ssh
 sudo journalctl -u sssd -n 20
 ```
 
-### Test de reconnexion automatique
+## Test de reconnexion automatique
 
 ```bash
 # Sortir de la session utilisateur
@@ -390,9 +388,9 @@ sudo -u j.boungo -i
 
 ---
 
-## 🔧 Dépannage courant
+# Dépannage courant
 
-### Problème : Résolution DNS ne fonctionne pas
+## Problème : Résolution DNS ne fonctionne pas
 
 **Solution** :
 ```bash
@@ -415,7 +413,7 @@ sudo systemctl restart systemd-resolved
 nslookup hn.gua.local
 ```
 
-### Problème : Échec de la jonction au domaine
+## Problème : Échec de la jonction au domaine
 
 **Solutions possibles** :
 1. Vérifier l'heure système (doit être synchronisée)
@@ -428,7 +426,7 @@ kinit Administrateur@HN.GUA.LOCAL
 klist
 ```
 
-### Problème : Utilisateur AD non trouvé après jonction
+## Problème : Utilisateur AD non trouvé après jonction
 
 **Solution** :
 ```bash
@@ -437,7 +435,7 @@ sudo sss_cache -E
 sudo systemctl restart sssd
 ```
 
-### Problème : PAM ne crée pas les répertoires home automatiquement
+## Problème : PAM ne crée pas les répertoires home automatiquement
 
 **Solution** :
 ```bash
@@ -459,7 +457,7 @@ sudo systemctl restart oddjobd
 
 ---
 
-## 📝 Configuration persistante du réseau et DNS
+# Configuration persistante du réseau et DNS
 
 Pour éviter de reconfigurer le réseau à chaque démarrage, créez un script de démarrage :
 
@@ -520,7 +518,7 @@ sudo chmod +x /usr/local/bin/configure-ad-network.sh
 
 ---
 
-## 🎯 Validation finale - Sessions utilisateur
+# Validation finale - Sessions utilisateur
 
 Une fois toutes les étapes terminées, vous devriez pouvoir :
 
@@ -544,7 +542,7 @@ Une fois toutes les étapes terminées, vous devriez pouvoir :
 
 4. **Bénéficier des GPO** appliquées par le contrôleur de domaine
 
-### Commandes de vérification finale des sessions
+## Commandes de vérification finale des sessions
 
 ```bash
 # Vérifier la jonction au domaine
@@ -566,11 +564,11 @@ ls -la /home/ | grep j.boungo
 
 ---
 
-## 📞 Support et ressources
+# Support et ressources
 
 En cas de problème persistant, consultez :
 - Les logs SSSD : `/var/log/sssd/`
 - Les logs système : `journalctl -u sssd`
 - La documentation officielle Ubuntu pour l'intégration AD
 
-**Contact support** : support@healthnorthclinique.org
+**Contact support** : jb.delienne29@gmail.com
