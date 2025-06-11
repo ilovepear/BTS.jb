@@ -1,8 +1,6 @@
-# Fiche Utilisateur – Suivi de supervision avec Zabbix
+# 1. Introduction
 
-## 1. Introduction
-
-### 1.1 Qu'est-ce que Zabbix ?
+## 1.1 Qu'est-ce que Zabbix ?
 
 Zabbix est une solution de supervision réseau open source qui permet de surveiller l'état et les performances des serveurs, équipements réseau et applications. Dans le cadre de ce projet, Zabbix 7.0.13 a été déployé sur l'infrastructure pour superviser les serveurs de l'environnement.
 
@@ -10,7 +8,7 @@ Le système fonctionne selon un modèle client-serveur où :
 - Le serveur Zabbix (SRV-ZAB-GUA) collecte et traite les données
 - Les agents Zabbix installés sur les machines à superviser (comme SRV-DC-GUA) transmettent les informations système
 
-### 1.2 Pourquoi la supervision est importante ?
+## 1.2 Pourquoi la supervision est importante ?
 
 La supervision permet de :
 - Détecter proactivement les problèmes avant qu'ils n'impactent les utilisateurs
@@ -19,7 +17,7 @@ La supervision permet de :
 - Créer un historique des performances pour l'analyse de tendances
 - Réduire les temps d'arrêt grâce à une détection rapide des incidents
 
-### 1.3 Objectif de la fiche (utiliser Zabbix au quotidien)
+## 1.3 Objectif de la fiche (utiliser Zabbix au quotidien)
 
 Cette fiche vous guide dans l'utilisation quotidienne de Zabbix pour :
 - Accéder au tableau de bord de supervision
@@ -27,16 +25,16 @@ Cette fiche vous guide dans l'utilisation quotidienne de Zabbix pour :
 - Interpréter les alertes et prendre les mesures appropriées
 - Assurer un suivi efficace de l'infrastructure informatique
 
-## 2. Accès à l'interface Zabbix
+# 2. Accès à l'interface Zabbix
 
-### 2.1 URL d'accès au tableau de bord
+## 2.1 URL d'accès au tableau de bord
 
 L'interface web de Zabbix est accessible via l'adresse suivante :
 **http://192.168.114.50/zabbix**
 
 Cette URL correspond au serveur Zabbix (SRV-ZAB-GUA) déployé sur le réseau local 192.168.114.0/24. Assurez-vous d'être connecté au même réseau pour accéder à l'interface.
 
-### 2.2 Identifiants de connexion (utilisateur + mot de passe)
+## 2.2 Identifiants de connexion (utilisateur + mot de passe)
 
 Les identifiants par défaut de Zabbix sont :
 - **Utilisateur** : Admin
@@ -44,7 +42,7 @@ Les identifiants par défaut de Zabbix sont :
 
 Il est fortement recommandé de modifier ces identifiants par défaut après la première connexion pour des raisons de sécurité. Vous pouvez également créer des comptes utilisateurs avec des privilèges spécifiques selon les besoins.
 
-### 2.3 Présentation rapide de l'interface (tableaux de bord, menus)
+## 2.3 Présentation rapide de l'interface (tableaux de bord, menus)
 
 L'interface Zabbix s'organise autour de plusieurs sections principales :
 
@@ -62,9 +60,9 @@ L'interface Zabbix s'organise autour de plusieurs sections principales :
 - Résumé des problèmes actifs
 - Widgets personnalisables selon vos besoins
 
-## 3. Consulter l'état des serveurs
+# 3. Consulter l'état des serveurs
 
-### 3.1 Où voir si un serveur est en ligne ou non
+## 3.1 Où voir si un serveur est en ligne ou non
 
 Pour consulter l'état des serveurs supervisés :
 
@@ -78,7 +76,7 @@ Dans la vue "Hosts", vous verrez pour chaque serveur :
 - Le statut de disponibilité de l'agent Zabbix
 - Les templates appliqués (ex: Template OS Windows by Zabbix agent)
 
-### 3.2 Signification des statuts : 🟢 Disponible, 🔴 Problème, ⚪ Inconnu
+## 3.2 Signification des statuts : 🟢 Disponible, 🔴 Problème, ⚪ Inconnu
 
 Les différents statuts d'un hôte dans Zabbix :
 
@@ -100,7 +98,7 @@ Les différents statuts d'un hôte dans Zabbix :
 - Agent récemment installé mais pas encore synchronisé
 - Problème temporaire de résolution DNS ou réseau
 
-### 3.3 Que faire si un hôte est en erreur ?
+## 3.3 Que faire si un hôte est en erreur ?
 
 Procédure de diagnostic lorsqu'un hôte apparaît en erreur :
 
@@ -122,9 +120,9 @@ Procédure de diagnostic lorsqu'un hôte apparaît en erreur :
 - Utiliser `zabbix_get` depuis le serveur pour tester la collecte de données
 - Exemple : `zabbix_get -s [IP_hôte] -k agent.ping`
 
-## 4. Analyser les alertes
+# 4. Analyser les alertes
 
-### 4.1 Accéder à la liste des alertes en temps réel
+## 4.1 Accéder à la liste des alertes en temps réel
 
 Pour consulter les alertes actives dans Zabbix :
 
@@ -143,7 +141,7 @@ Pour consulter les alertes actives dans Zabbix :
 - Historique complet des événements (problèmes et résolutions)
 - Permet l'analyse des tendances et récurrences
 
-### 4.2 Distinguer les alertes critiques, majeures, mineures
+## 4.2 Distinguer les alertes critiques, majeures, mineures
 
 Zabbix classe les alertes selon plusieurs niveaux de gravité :
 
@@ -173,7 +171,7 @@ Zabbix classe les alertes selon plusieurs niveaux de gravité :
 - Exemples : redémarrage planifié, maintenance programmée
 - Aucune action immédiate requise
 
-### 4.3 Savoir quand une alerte se résout automatiquement
+## 4.3 Savoir quand une alerte se résout automatiquement
 
 Les alertes dans Zabbix se résolvent automatiquement lorsque :
 
@@ -199,9 +197,9 @@ Les alertes dans Zabbix se résolvent automatiquement lorsque :
 - Les problèmes structurels (panne matérielle) ne se résolvent qu'après intervention
 - Les alertes de maintenance doivent être fermées manuellement après validation
 
-## 5. Voir les données de surveillance
+# 5. Voir les données de surveillance
 
-### 5.1 Consulter l'utilisation CPU, RAM, espace disque
+## 5.1 Consulter l'utilisation CPU, RAM, espace disque
 
 **Accès aux métriques système :**
 - Connectez-vous à l'interface Web Zabbix via votre navigateur
@@ -219,7 +217,7 @@ Les alertes dans Zabbix se résolvent automatiquement lorsque :
 - Les graphiques montrent l'évolution des métriques sur différentes périodes (1h, 24h, 7j, 1mois)
 - Utilisez les boutons de zoom pour ajuster la période d'affichage
 
-### 5.2 Suivre l'état des services (ex : Active Directory, DNS)
+## 5.2 Suivre l'état des services (ex : Active Directory, DNS)
 
 **Surveillance des services critiques :**
 - Accédez à **Monitoring > Problems** pour voir les alertes actives
@@ -239,7 +237,7 @@ Les alertes dans Zabbix se résolvent automatiquement lorsque :
 - Dans **Latest data**, filtrez par type d'item pour voir spécifiquement les services
 - Consultez les triggers associés pour comprendre les seuils d'alerte configurés
 
-### 5.3 Filtrer par machine ou par date
+## 5.3 Filtrer par machine ou par date
 
 **Filtrage par machine :**
 - Utilisez la barre de recherche dans **Hosts** pour trouver une machine spécifique
@@ -256,9 +254,9 @@ Les alertes dans Zabbix se résolvent automatiquement lorsque :
 - **Application** : Regrouper les éléments par catégorie applicative
 - **Tag filters** : Utiliser les étiquettes pour des recherches spécifiques
 
-## 6. FAQ / Problèmes courants
+# 6. FAQ / Problèmes courants
 
-### 6.1 Pourquoi un hôte reste "gris" (inconnu) ?
+## 6.1 Pourquoi un hôte reste "gris" (inconnu) ?
 
 **Causes principales :**
 - **Agent Zabbix non démarré** : Le service Zabbix Agent n'est pas en cours d'exécution sur la machine cible
@@ -278,7 +276,7 @@ Les alertes dans Zabbix se résolvent automatiquement lorsque :
 - Vérifier et corriger l'adresse IP/nom d'hôte dans la configuration Zabbix
 - Contrôler les autorisations et la configuration de l'agent
 
-### 6.2 Réparations en cas d'inaccessibilité à l'interface Zabbix Web
+## 6.2 Réparations en cas d'inaccessibilité à l'interface Zabbix Web
 
 **Vérifications préliminaires :**
 - Tester l'accès depuis un autre poste de travail pour isoler le problème
@@ -303,7 +301,7 @@ Les alertes dans Zabbix se résolvent automatiquement lorsque :
 - Vérification des logs Zabbix (/var/log/zabbix/)
 - Redémarrage des services si nécessaire
 
-### 6.3 Que signifie "Zabbix Agent is unavailable" ?
+## 6.3 Que signifie "Zabbix Agent is unavailable" ?
 
 **Signification de l'erreur :**
 Cette erreur indique que le serveur Zabbix ne peut pas communiquer avec l'agent Zabbix installé sur l'hôte supervisé. La collecte de données est interrompue pour cet hôte.
@@ -327,7 +325,7 @@ Cette erreur indique que le serveur Zabbix ne peut pas communiquer avec l'agent 
 4. Réinstaller l'agent en cas de corruption
 5. Mettre à jour la configuration côté serveur si l'hôte a changé d'IP
 
-### 6.4 Que faire si je ne vois pas un hôte que je devrais superviser ?
+## 6.4 Que faire si je ne vois pas un hôte que je devrais superviser ?
 
 **Vérifications dans l'interface :**
 - Contrôler les filtres actifs dans la vue **Hosts** (groupes, statuts)
