@@ -79,7 +79,10 @@ Le serveur de supervision fonctionne sur **Ubuntu Server 22.04 LTS**, choisi pou
 - Configuration réseau statique pour éviter les conflits DHCP
 - Mise à jour complète du système avant installation des services
 - Configuration du fuseau horaire Europe/Paris
-- Activation du service SSH pour l'administration distante
+- Pas d'administration distante
+
+![Capture d'écran 2025-05-31 133108](https://github.com/user-attachments/assets/eeed4d7f-b048-4113-8a4d-01e1d2a125ea)
+
 
 ## 3.2 Rôles installés : Zabbix Server, Apache2, PHP, MariaDB
 
@@ -370,10 +373,20 @@ sudo systemctl status mariadb
 
 Lors du premier accès à l'interface web, assistant de configuration automatique :
 1. Vérification des prérequis PHP
+![Capture d'écran 2025-06-08 130820](https://github.com/user-attachments/assets/7aac971a-b5d6-4650-aed4-86009dbf5392)
+
 2. Configuration de la connexion à la base de données
+![Capture d'écran 2025-06-10 123704](https://github.com/user-attachments/assets/886f0856-991e-4cad-b9ed-229cbab8e2c8)
+
 3. Paramètres du serveur Zabbix
+![Capture d'écran 2025-06-10 124303](https://github.com/user-attachments/assets/ebbee281-2f95-4905-b0f3-fd48312c6675)
+
 4. Résumé de la configuration
-5. Création du compte administrateur par défaut (Admin/zabbix)
+![Capture d'écran 2025-06-10 124326](https://github.com/user-attachments/assets/152e1318-e637-471d-9f7b-694d7f6597cb)
+
+![Capture d'écran 2025-06-10 124343](https://github.com/user-attachments/assets/2f80f796-218d-4850-bde2-138b259f89f7)
+
+![Capture d'écran 2025-06-10 131049](https://github.com/user-attachments/assets/fe12093f-0a66-44ba-9421-302ca1a0ec3e)
 
 ---
 
@@ -500,6 +513,8 @@ INSTALLFOLDER="C:\Program Files\Zabbix Agent 2"
 - Assistant d'installation avec paramètres personnalisés
 - Configuration des paramètres de base pendant l'installation
 - Création automatique du service Windows
+
+![Capture d'écran 2025-06-10 135625](https://github.com/user-attachments/assets/9df9e4e2-6507-4144-b6ed-bc90eeb3ccb4)
 
 **4. Vérification post-installation :**
 ```powershell
@@ -876,6 +891,7 @@ sudo netstat -tlnp | grep :10051
 ```
 
 ## 6.5 Résolution du problème "agent indisponible"
+![Capture d'écran 2025-06-10 131120](https://github.com/user-attachments/assets/a014cb84-85cc-4f74-b6c8-d732101c0e43)
 
 ## Checklist de diagnostic :
 
