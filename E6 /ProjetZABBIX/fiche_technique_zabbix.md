@@ -1,6 +1,6 @@
-## 1. Présentation du projet
+# 1. Présentation du projet
 
-### 1.1 Objectifs de la supervision
+## 1.1 Objectifs de la supervision
 
 Ce projet vise à mettre en place une solution complète de supervision réseau utilisant **Zabbix 7.0.13**. Les objectifs principaux sont :
 
@@ -10,7 +10,7 @@ Ce projet vise à mettre en place une solution complète de supervision réseau 
 - Fournir un tableau de bord centralisé pour le monitoring
 - Établir une base pour l'extension future de la supervision
 
-### 1.2 Contexte pédagogique (BTS SIO – SISR)
+## 1.2 Contexte pédagogique (BTS SIO – SISR)
 
 Cette réalisation s'inscrit dans le cadre de la formation **BTS Services Informatiques aux Organisations**, option **Solutions d'Infrastructure, Systèmes et Réseaux (SISR)**. Le projet permet de mettre en pratique les compétences suivantes :
 
@@ -20,7 +20,7 @@ Cette réalisation s'inscrit dans le cadre de la formation **BTS Services Inform
 - Mise en place d'outils de supervision
 - Gestion de la sécurité réseau (pare-feu, ports)
 
-### 1.3 Environnement de test (machines virtuelles sur VirtualBox)
+## 1.3 Environnement de test (machines virtuelles sur VirtualBox)
 
 L'infrastructure est entièrement virtualisée sur **VirtualBox**, permettant un environnement de test sécurisé et facilement reproductible. Cette approche offre plusieurs avantages :
 
@@ -31,9 +31,9 @@ L'infrastructure est entièrement virtualisée sur **VirtualBox**, permettant un
 
 ---
 
-## 2. Architecture réseau
+# 2. Architecture réseau
 
-### 2.1 Description du réseau 192.168.114.0/24
+## 2.1 Description du réseau 192.168.114.0/24
 
 L'infrastructure repose sur un réseau local privé de classe C avec les caractéristiques suivantes :
 
@@ -42,11 +42,11 @@ L'infrastructure repose sur un réseau local privé de classe C avec les caract�
 - **Plage d'adresses disponibles** : 192.168.114.1 à 192.168.114.254
 - **Type** : Réseau interne VirtualBox
 
-### 2.2 Topologie réseau
+## 2.2 Topologie réseau
 
 L'architecture repose sur deux machines virtuelles interconnectées dans un réseau privé, avec des flux de communication bidirectionnels pour la supervision. Le serveur Zabbix initie les connexions vers l'agent pour collecter les métriques, tandis que l'agent peut également transmettre des données de manière proactive selon la configuration.
 
-### 2.3 Adressage IP, rôle de chaque machine
+## 2.3 Adressage IP, rôle de chaque machine
 
 | Machine | Adresse IP | Rôle principal | Services |
 |---------|------------|----------------|----------|
@@ -60,9 +60,9 @@ L'architecture repose sur deux machines virtuelles interconnectées dans un rés
 
 ---
 
-## 3. Serveur Zabbix (SRV-ZAB-GUA)
+# 3. Serveur Zabbix (SRV-ZAB-GUA)
 
-### 3.1 Système : Ubuntu Server 22.04
+## 3.1 Système : Ubuntu Server 22.04
 
 Le serveur de supervision fonctionne sur **Ubuntu Server 22.04 LTS**, choisi pour plusieurs raisons techniques :
 
@@ -81,7 +81,7 @@ Le serveur de supervision fonctionne sur **Ubuntu Server 22.04 LTS**, choisi pou
 - Configuration du fuseau horaire Europe/Paris
 - Activation du service SSH pour l'administration distante
 
-### 3.2 Rôles installés : Zabbix Server, Apache2, PHP, MariaDB
+## 3.2 Rôles installés : Zabbix Server, Apache2, PHP, MariaDB
 
 L'architecture du serveur repose sur une pile LAMP adaptée pour Zabbix :
 
@@ -90,7 +90,7 @@ L'architecture du serveur repose sur une pile LAMP adaptée pour Zabbix :
 - **PHP 8.3** : Langage de script pour le frontend web
 - **MariaDB** : Base de données pour stocker les configurations et données de supervision
 
-### 3.3 Installation des paquets Zabbix 7.0.13
+## 3.3 Installation des paquets Zabbix 7.0.13
 
 L'installation suit la procédure officielle Zabbix avec ajout du dépôt de packages :
 
@@ -130,7 +130,7 @@ netstat -tulpn | grep :10051
 netstat -tulpn | grep :80
 ```
 
-### 3.4 Configuration de la base de données
+## 3.4 Configuration de la base de données
 
 La base de données MariaDB nécessite une configuration complète et sécurisée :
 
@@ -230,7 +230,7 @@ TrendCacheSize=4M
 ValueCacheSize=8M
 ```
 
-### 3.5 Configuration Apache et PHP
+## 3.5 Configuration Apache et PHP
 
 **Configuration détaillée de PHP** (`/etc/php/8.3/apache2/php.ini`) :
 
@@ -377,9 +377,9 @@ Lors du premier accès à l'interface web, assistant de configuration automatiqu
 
 ---
 
-## 4. Agent supervisé (SRV-DC-GUA)
+# 4. Agent supervisé (SRV-DC-GUA)
 
-### 4.1 Système : Windows Server
+## 4.1 Système : Windows Server
 
 Le serveur supervisé fonctionne sous **Windows Server 2019/2022**, configuré comme environnement de production simulé représentant un serveur d'infrastructure critique.
 
@@ -396,7 +396,7 @@ Le serveur supervisé fonctionne sous **Windows Server 2019/2022**, configuré c
 - **DHCP Server** : Attribution automatique d'adresses IP
 - **Remote Desktop Services** : Accès à distance pour l'administration
 
-### 4.2 Rôle : Contrôleur de domaine + serveur DHCP + agent Zabbix
+## 4.2 Rôle : Contrôleur de domaine + serveur DHCP + agent Zabbix
 
 **Services Windows installés :**
 - **Active Directory Domain Services** : Contrôleur de domaine
@@ -409,7 +409,7 @@ Le serveur supervisé fonctionne sous **Windows Server 2019/2022**, configuré c
 - Redirecteurs DNS configurés (8.8.8.8) pour l'accès Internet
 - Résolution DNS fonctionnelle depuis le serveur
 
-### 4.3 Fixation de l'IP statique
+## 4.3 Fixation de l'IP statique
 
 **Configuration réseau détaillée :**
 
@@ -464,7 +464,7 @@ ping 8.8.8.8
 - **Redirecteurs DNS** : 8.8.8.8 et 8.8.4.4 configurés pour les requêtes externes
 - **Enregistrements DNS** : Enregistrements A et PTR pour les serveurs de l'infrastructure
 
-### 4.4 Installation de Zabbix Agent (ou Agent 2)
+## 4.4 Installation de Zabbix Agent (ou Agent 2)
 
 **Choix de Zabbix Agent 2 :**
 
@@ -513,7 +513,7 @@ Get-ChildItem "C:\Program Files\Zabbix Agent 2"
 Test-NetConnection -ComputerName 192.168.114.50 -Port 10051
 ```
 
-### 4.5 Configuration du fichier `zabbix_agentd.conf`
+## 4.5 Configuration du fichier `zabbix_agentd.conf`
 
 **Localisation du fichier de configuration :**
 - **Chemin principal** : `C:\Program Files\Zabbix Agent 2\zabbix_agentd.conf`
@@ -522,7 +522,7 @@ Test-NetConnection -ComputerName 192.168.114.50 -Port 10051
 **Configuration complète du fichier :**
 
 ```ini
-############ GENERAL PARAMETERS #################
+###### GENERAL PARAMETERS #########
 
 # Liste des serveurs Zabbix autorisés à se connecter
 Server=192.168.114.50
@@ -533,7 +533,7 @@ ServerActive=192.168.114.50
 # Nom d'hôte de l'agent (doit correspondre exactement à celui configuré sur le serveur)
 Hostname=SRV-DC-GUA
 
-############ ADVANCED PARAMETERS #################
+###### ADVANCED PARAMETERS #########
 
 # Port d'écoute de l'agent
 ListenPort=10050
@@ -544,7 +544,7 @@ ListenIP=0.0.0.0
 # Adresse source pour les connexions sortantes
 SourceIP=192.168.114.88
 
-############ LOGGING PARAMETERS ##################
+###### LOGGING PARAMETERS #########
 
 # Fichier de log
 LogFile=C:\Program Files\Zabbix Agent 2\zabbix_agentd.log
@@ -555,7 +555,7 @@ LogFileSize=10
 # Niveau de log (0=aucun, 1=critique, 2=erreur, 3=warning, 4=info, 5=debug)
 DebugLevel=3
 
-############ SECURITY PARAMETERS #################
+###### SECURITY PARAMETERS #########
 
 # Timeout pour les opérations réseau
 Timeout=10
@@ -563,7 +563,7 @@ Timeout=10
 # Répertoire pour les fichiers PID
 PidFile=C:\Program Files\Zabbix Agent 2\zabbix_agentd.pid
 
-############ PERFORMANCE PARAMETERS ##############
+###### PERFORMANCE PARAMETERS #######
 
 # Buffer pour les métriques (nombre d'éléments)
 BufferSize=100
@@ -571,19 +571,19 @@ BufferSize=100
 # Nombre maximum de nouvelles connexions par seconde
 MaxLinesPerSecond=20
 
-############ USER-DEFINED MONITORED PARAMETERS ###
+###### USER-DEFINED MONITORED PARAMETERS ##
 
 # Paramètres personnalisés (exemples)
 # UserParameter=custom.disk.discovery,powershell -NoProfile -Command "Get-WmiObject Win32_LogicalDisk | ConvertTo-Json"
 # UserParameter=custom.service[*],powershell -NoProfile -Command "Get-Service '$1' | Select-Object Status | ConvertTo-Json"
 
-############ LOADABLE MODULES #####################
+###### LOADABLE MODULES ###########
 
 # Modules supplémentaires (optionnel)
 # LoadModulePath=C:\Program Files\Zabbix Agent 2\modules
 # LoadModule=zabbix_module_dummy.dll
 
-############ TLS PARAMETERS #######################
+###### TLS PARAMETERS ############
 
 # Configuration TLS (optionnel pour sécurisation)
 # TLSConnect=cert
@@ -625,7 +625,7 @@ zabbix_get -s 192.168.114.88 -k vm.memory.size[available]
 nslookup 192.168.114.88
 ```
 
-### 4.6 Ajout de l'exception pare-feu pour le port 10050
+## 4.6 Ajout de l'exception pare-feu pour le port 10050
 
 **Configuration détaillée du pare-feu Windows :**
 
@@ -711,9 +711,9 @@ zabbix_get -s 192.168.114.88 -k vm.memory.size[available]
 zabbix_get -s 192.168.114.88 -k vfs.fs.size[C:,free]
 ```
 
-## 5. Configuration dans Zabbix Web
+# 5. Configuration dans Zabbix Web
 
-### 5.1 Accès à l'interface d'administration
+## 5.1 Accès à l'interface d'administration
 
 **URL d'accès** : `http://192.168.114.50/zabbix`
 
@@ -721,9 +721,9 @@ zabbix_get -s 192.168.114.88 -k vfs.fs.size[C:,free]
 - Utilisateur : `Admin`
 - Mot de passe : `zabbix`
 
-### 5.2 Création manuelle de l'hôte
+## 5.2 Création manuelle de l'hôte
 
-#### Étapes de création :
+## Étapes de création :
 
 1. **Navigation** : Configuration → Hosts → Create host
 2. **Paramètres de l'hôte** :
@@ -742,9 +742,9 @@ zabbix_get -s 192.168.114.88 -k vfs.fs.size[C:,free]
    Port: 10050
    ```
 
-### 5.3 Ajout de l'interface agent et application du template OS Windows
+## 5.3 Ajout de l'interface agent et application du template OS Windows
 
-#### Configuration de l'interface agent :
+## Configuration de l'interface agent :
 
 **Paramètres techniques** :
 - **Type** : Zabbix agent
@@ -752,7 +752,7 @@ zabbix_get -s 192.168.114.88 -k vfs.fs.size[C:,free]
 - **Port** : 10050 (port par défaut de Zabbix Agent)
 - **Connexion** : IP (recommandé pour éviter les problèmes DNS)
 
-#### Application du template :
+## Application du template :
 
 1. **Sélection du template** : `Template OS Windows by Zabbix agent`
 2. **Ajout** : Onglet "Templates" → Link new templates
@@ -766,9 +766,9 @@ zabbix_get -s 192.168.114.88 -k vfs.fs.size[C:,free]
 - Services Windows critiques
 - Performances réseau
 
-### 5.4 Réglages du nom d'hôte
+## 5.4 Réglages du nom d'hôte
 
-#### Correspondance obligatoire :
+## Correspondance obligatoire :
 
 Le paramètre `Hostname` dans la configuration de l'agent Zabbix **doit strictement correspondre** au nom d'hôte déclaré dans l'interface web.
 
@@ -786,11 +786,11 @@ Host name: SRV-DC-GUA
 
 ---
 
-## 6. Tests et vérifications
+# 6. Tests et vérifications
 
-### 6.1 Ping entre les machines
+## 6.1 Ping entre les machines
 
-#### Test de connectivité réseau :
+## Test de connectivité réseau :
 
 **Depuis SRV-ZAB-GUA vers SRV-DC-GUA** :
 ```bash
@@ -804,9 +804,9 @@ ping 192.168.114.50
 
 **Résultat attendu** : Réponse sans perte de paquets (0% packet loss)
 
-### 6.2 Test `zabbix_get` depuis le serveur
+## 6.2 Test `zabbix_get` depuis le serveur
 
-#### Commande de test depuis SRV-ZAB-GUA :
+## Commande de test depuis SRV-ZAB-GUA :
 
 ```bash
 zabbix_get -s 192.168.114.88 -p 10050 -k agent.ping
@@ -817,7 +817,7 @@ zabbix_get -s 192.168.114.88 -p 10050 -k agent.ping
 - `Connection refused` : Port 10050 fermé ou service arrêté
 - `Timeout` : Problème réseau ou pare-feu
 
-#### Tests additionnels :
+## Tests additionnels :
 
 **Test de version de l'agent** :
 ```bash
@@ -829,9 +829,9 @@ zabbix_get -s 192.168.114.88 -p 10050 -k agent.version
 zabbix_get -s 192.168.114.88 -p 10050 -k system.cpu.util[,avg1]
 ```
 
-### 6.3 État ZBX dans le dashboard
+## 6.3 État ZBX dans le dashboard
 
-#### Vérification visuelle :
+## Vérification visuelle :
 
 1. **Navigation** : Monitoring → Hosts
 2. **Indicateur ZBX** : 
@@ -839,14 +839,14 @@ zabbix_get -s 192.168.114.88 -p 10050 -k system.cpu.util[,avg1]
    - 🔴 **Rouge** : Agent inaccessible
    - ⚪ **Gris** : Pas de données ou configuration incorrecte
 
-#### Temps de mise à jour :
+## Temps de mise à jour :
 
 - **Délai normal** : 30 secondes à 2 minutes
 - **Forcer l'actualisation** : Configuration → Hosts → sélectionner l'hôte → "Check now"
 
-### 6.4 Vérification des services et ports actifs
+## 6.4 Vérification des services et ports actifs
 
-#### Côté Windows (SRV-DC-GUA) :
+## Côté Windows (SRV-DC-GUA) :
 
 **Vérification du service Zabbix** :
 ```cmd
@@ -863,7 +863,7 @@ netstat -an | findstr :10050
 TCP    0.0.0.0:10050         0.0.0.0:0              LISTENING
 ```
 
-#### Côté serveur Zabbix (SRV-ZAB-GUA) :
+## Côté serveur Zabbix (SRV-ZAB-GUA) :
 
 **Vérification du service Zabbix Server** :
 ```bash
@@ -875,9 +875,9 @@ sudo systemctl status zabbix-server
 sudo netstat -tlnp | grep :10051
 ```
 
-### 6.5 Résolution du problème "agent indisponible"
+## 6.5 Résolution du problème "agent indisponible"
 
-#### Checklist de diagnostic :
+## Checklist de diagnostic :
 
 1. **Connectivité réseau** :
    ```bash
@@ -899,18 +899,18 @@ sudo netstat -tlnp | grep :10051
 
 ---
 
-## 7. Incidents rencontrés et résolus
+# 7. Incidents rencontrés et résolus
 
-### 7.1 Problème de hostname incohérent
+## 7.1 Problème de hostname incohérent
 
-#### Symptôme :
+## Symptôme :
 - État ZBX gris dans le dashboard
 - Message d'erreur : "received value for unknown host"
 
-#### Cause :
+## Cause :
 Différence entre le `Hostname` configuré dans l'agent et celui déclaré dans l'interface web.
 
-#### Résolution :
+## Résolution :
 1. **Vérification côté agent** :
    ```ini
    # Dans zabbix_agent2.conf
@@ -927,16 +927,16 @@ Différence entre le `Hostname` configuré dans l'agent et celui déclaré dans 
    net start "Zabbix Agent 2"
    ```
 
-### 7.2 Port 10050 bloqué
+## 7.2 Port 10050 bloqué
 
-#### Symptôme :
+## Symptôme :
 - `zabbix_get` retourne "Connection refused"
 - Telnet vers le port 10050 échoue
 
-#### Cause :
+## Cause :
 Pare-feu Windows bloque le port entrant 10050.
 
-#### Résolution :
+## Résolution :
 1. **Créer une règle de pare-feu** :
    ```cmd
    netsh advfirewall firewall add rule name="Zabbix Agent" dir=in action=allow protocol=TCP localport=10050
@@ -947,16 +947,16 @@ Pare-feu Windows bloque le port entrant 10050.
    - Règles de trafic entrant → Nouvelle règle
    - Port TCP 10050 → Autoriser la connexion
 
-### 7.3 Carte réseau sur mauvais réseau NAT
+## 7.3 Carte réseau sur mauvais réseau NAT
 
-#### Symptôme :
+## Symptôme :
 - Machines ne se pinguent pas
 - Adresses IP sur des sous-réseaux différents
 
-#### Cause :
+## Cause :
 VirtualBox a assigné les machines sur des réseaux NAT différents.
 
-#### Résolution :
+## Résolution :
 1. **Arrêter les VMs**
 2. **Configuration réseau** :
    - Paramètres VM → Réseau
@@ -965,15 +965,15 @@ VirtualBox a assigné les machines sur des réseaux NAT différents.
 
 3. **Redémarrer et vérifier la connectivité**
 
-### 7.4 Renommage de machine = perte d'accès
+## 7.4 Renommage de machine = perte d'accès
 
-#### Symptôme :
+## Symptôme :
 Après renommage de la machine Windows, l'agent devient inaccessible.
 
-#### Cause :
+## Cause :
 Le hostname dans la configuration de l'agent ne correspond plus au nom système.
 
-#### Résolution :
+## Résolution :
 1. **Mettre à jour la configuration** :
    ```ini
    Hostname=NOUVEAU-NOM-MACHINE
@@ -984,16 +984,16 @@ Le hostname dans la configuration de l'agent ne correspond plus au nom système.
 
 3. **Redémarrer le service agent**
 
-### 7.5 Blocage DNS côté DC sans redirecteurs
+## 7.5 Blocage DNS côté DC sans redirecteurs
 
-#### Symptôme :
+## Symptôme :
 - Le contrôleur de domaine ne résout plus les noms externes
 - Perte de connectivité Internet
 
-#### Cause :
+## Cause :
 DNS configuré en tant que serveur autoritaire sans redirecteurs.
 
-#### Résolution :
+## Résolution :
 1. **Ouvrir DNS Manager**
 2. **Clic droit sur le serveur → Propriétés**
 3. **Onglet Redirecteurs → Ajouter** :
@@ -1004,11 +1004,11 @@ DNS configuré en tant que serveur autoritaire sans redirecteurs.
 
 ---
 
-## 8. Sécurisation et optimisation
+# 8. Sécurisation et optimisation
 
-### 8.1 Fixation des IPs
+## 8.1 Fixation des IPs
 
-#### Configuration IP statique SRV-ZAB-GUA :
+## Configuration IP statique SRV-ZAB-GUA :
 ```bash
 # /etc/netplan/00-installer-config.yaml
 network:
@@ -1021,16 +1021,16 @@ network:
         addresses: [8.8.8.8, 8.8.4.4]
 ```
 
-#### Configuration IP statique SRV-DC-GUA :
+## Configuration IP statique SRV-DC-GUA :
 - Interface réseau → Propriétés IPv4
 - IP : 192.168.114.88
 - Masque : 255.255.255.0
 - Passerelle : 192.168.114.1
 - DNS : 127.0.0.1, 8.8.8.8
 
-### 8.2 Redémarrage automatique des services
+## 8.2 Redémarrage automatique des services
 
-#### Service Zabbix Server (Ubuntu) :
+## Service Zabbix Server (Ubuntu) :
 ```bash
 sudo systemctl enable zabbix-server
 sudo systemctl enable zabbix-agent
@@ -1038,15 +1038,15 @@ sudo systemctl enable apache2
 sudo systemctl enable mariadb
 ```
 
-#### Service Zabbix Agent (Windows) :
+## Service Zabbix Agent (Windows) :
 ```cmd
 sc config "Zabbix Agent 2" start= auto
 sc config "Zabbix Agent 2" failure reset= 60 actions= restart/30000/restart/30000/restart/30000
 ```
 
-### 8.3 Libération mémoire sur le serveur
+## 8.3 Libération mémoire sur le serveur
 
-#### Optimisation MariaDB :
+## Optimisation MariaDB :
 ```ini
 # /etc/mysql/mariadb.conf.d/50-server.cnf
 [mysqld]
@@ -1055,7 +1055,7 @@ query_cache_size = 32M
 query_cache_limit = 2M
 ```
 
-#### Optimisation Zabbix Server :
+## Optimisation Zabbix Server :
 ```ini
 # /etc/zabbix/zabbix_server.conf
 StartPollers=5
@@ -1067,15 +1067,15 @@ HistoryCacheSize=16M
 TrendCacheSize=8M
 ```
 
-### 8.4 Conseils sur l'usage de l'agent 2
+## 8.4 Conseils sur l'usage de l'agent 2
 
-#### Avantages de Zabbix Agent 2 :
+## Avantages de Zabbix Agent 2 :
 - **Performance** : Écrit en Go, plus rapide que l'agent 1
 - **Plugins** : Architecture modulaire extensible
 - **Ressources** : Consommation mémoire réduite
 - **Compatibilité** : Supporte les items de l'agent 1
 
-#### Configuration recommandée :
+## Configuration recommandée :
 ```ini
 Server=192.168.114.50
 ServerActive=192.168.114.50
@@ -1089,11 +1089,11 @@ Timeout=3
 
 ---
 
-## 9. Évolutions possibles
+# 9. Évolutions possibles
 
-### 9.1 Supervision d'autres machines (Linux, Windows)
+## 9.1 Supervision d'autres machines (Linux, Windows)
 
-#### Déploiement à grande échelle :
+## Déploiement à grande échelle :
 
 **Templates recommandés** :
 - `Template OS Linux by Zabbix agent` : Serveurs Linux
@@ -1106,9 +1106,9 @@ Timeout=3
 2. **Groupement logique** : Organisation par fonction (web, bdd, file servers)
 3. **Templates personnalisés** : Adaptation aux besoins métier
 
-### 9.2 Intégration d'un mail d'alerte
+## 9.2 Intégration d'un mail d'alerte
 
-#### Configuration du media type email :
+## Configuration du media type email :
 
 1. **Administration → Media types → Email**
 2. **Paramètres SMTP** :
@@ -1121,7 +1121,7 @@ Timeout=3
    Authentication: Username and password
    ```
 
-#### Création d'actions automatisées :
+## Création d'actions automatisées :
 
 **Conditions de déclenchement** :
 - Seuil CPU > 85% pendant 5 minutes
@@ -1129,9 +1129,9 @@ Timeout=3
 - Service critique arrêté
 - Perte de connectivité réseau
 
-### 9.3 Règles de découverte automatique
+## 9.3 Règles de découverte automatique
 
-#### Auto-découverte réseau :
+## Auto-découverte réseau :
 
 **Configuration Discovery** :
 ```
@@ -1147,9 +1147,9 @@ Host name: IP address
 - Application de templates par OS détecté
 - Notification des nouveaux équipements
 
-### 9.4 Sauvegarde des métriques
+## 9.4 Sauvegarde des métriques
 
-#### Stratégie de rétention :
+## Stratégie de rétention :
 
 **Configuration dans Zabbix** :
 ```
@@ -1165,9 +1165,9 @@ mysqldump -u zabbix -p zabbix > /backup/zabbix_$(date +%Y%m%d).sql
 find /backup -name "zabbix_*.sql" -mtime +30 -delete
 ```
 
-### 9.5 Surveillance de services personnalisés
+## 9.5 Surveillance de services personnalisés
 
-#### Monitoring applicatif avancé :
+## Monitoring applicatif avancé :
 
 **Services Windows personnalisés** :
 ```ini
