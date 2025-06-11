@@ -1,6 +1,6 @@
-## 1. INFORMATIONS GÉNÉRALES
+# 1. INFORMATIONS GÉNÉRALES
 
-### Spécifications du serveur
+## Spécifications du serveur
 - **Adresse IP** : 192.168.10.1
 - **Nom FQDN** : dc1.hn.gua.local
 - **Domaine AD** : hn.gua.local
@@ -14,15 +14,15 @@
 
 - **Sécurité réseau** : UFW (Uncomplicated Firewall)
 
-### Architecture réseau
+## Architecture réseau
 - **Réseau interne** : 192.168.10.0/24
 - **Passerelle** : 192.168.10.1 (le serveur lui-même)
 - **Serveur DNS primaire** : 192.168.10.1
 - **Serveur DNS secondaire** : 8.8.8.8 (fallback)
 
-## 2. CONFIGURATION ACTIVE DIRECTORY DOMAIN SERVICES
+# 2. CONFIGURATION ACTIVE DIRECTORY DOMAIN SERVICES
 
-### Installation et promotion
+## Installation et promotion
 ```powershell
 # Installation du rôle AD DS
 Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
@@ -49,7 +49,7 @@ Equivalent graphique :
 
 
 
-### Structure organisationnelle
+## Structure organisationnelle
 ```
 hn.gua.local
 ├── Builtin
@@ -71,13 +71,13 @@ hn.gua.local
         └── Distribution_Groups
 ```
 
-### Paramètres du domaine
+## Paramètres du domaine
 - **Niveau fonctionnel du domaine** : Windows Server 2016 minimum
 - **Niveau fonctionnel de la forêt** : Windows Server 2016 minimum
 - **Mode de réplication** : FRS ou DFSR (recommandé)
 - **Catalogue global** : Activé sur le contrôleur principal
 
-### Services critiques AD
+## Services critiques AD
 ```powershell
 # Vérification des services AD essentiels
 Get-Service | Where-Object {$_.Name -in @('ADWS','DNS','KDC','Netlogon','NTDS','W32Time')} | Format-Table Name,Status,StartType
@@ -91,9 +91,9 @@ Services requis :
 - **NTDS** (Active Directory Domain Services)
 - **W32Time** (Service de temps Windows)
 
-## 3. CONFIGURATION DNS
+# 3. CONFIGURATION DNS
 
-### Zones DNS principales
+## Zones DNS principales
 ```powershell
 # Zone de recherche directe
 Add-DnsServerPrimaryZone -Name "hn.gua.local" -ZoneFile "hn.gua.local.dns"
@@ -102,7 +102,7 @@ Add-DnsServerPrimaryZone -Name "hn.gua.local" -ZoneFile "hn.gua.local.dns"
 Add-DnsServerPrimaryZone -NetworkID "192.168.10.0/24" -ZoneFile "10.168.192.in-addr.arpa.dns"
 ```
 
-### Enregistrements DNS critiques
+## Enregistrements DNS critiques
 ```
 # Enregistrements SRV requis pour AD
 _ldap._tcp.hn.gua.local.        SRV 0 100 389 dc1.hn.gua.local.
@@ -118,7 +118,7 @@ hn.gua.local.                   A   192.168.10.1
 1.10.168.192.in-addr.arpa.      PTR dc1.hn.gua.local.
 ```
 
-### Configuration DNS avancée
+## Configuration DNS avancée
 ```powershell
 # Activation de la mise à jour dynamique sécurisée
 Set-DnsServerPrimaryZone -Name "hn.gua.local" -DynamicUpdate "Secure"
@@ -131,7 +131,7 @@ Set-DnsServerScavenging -ScavengingState $true -ScavengingInterval 7.00:00:00
 Set-DnsServerZoneAging -Name "hn.gua.local" -Aging $true -RefreshInterval 7.00:00:00 -NoRefreshInterval 7.00:00:00
 ```
 
-### Vérification DNS
+## Vérification DNS
 ```powershell
 # Test de résolution DNS
 nslookup hn.gua.local 192.168.10.1
@@ -141,86 +141,69 @@ nslookup dc1.hn.gua.local 192.168.10.1
 nslookup -type=SRV _ldap._tcp.hn.gua.local 192.168.10.1
 ```
 
-## 4. CONFIGURATION GROUP POLICY OBJECTS (GPO)
+# 4. CONFIGURATION GROUP POLICY OBJECTS (GPO)
+## Objectif :
+Mettre en place les politiques de groupe nécessaires à la gestion des utilisateurs dans le domaine `hn.gua.local`, suite à la restauration du contrôleur de domaine `SRV-DC-GUA`.
 
-### Structure GPO recommandée
+---
+
+## GPO 1 – Politique ComplexPassword
+
+**Lieu** : Configuration par défaut du domaine  
+
+**Chemin** :  
 ```
-Group Policy Objects
-├── Default Domain Policy (modifiée)
-├── Default Domain Controllers Policy
-└── Custom GPOs
-    ├── Computer Configuration
-    │   ├── GPO_Security_Baseline
-    │   ├── GPO_Windows_Updates
-    │   ├── GPO_Firewall_Rules
-    │   └── GPO_Software_Installation
-    └── User Configuration
-        ├── GPO_Desktop_Settings
-        ├── GPO_Drive_Mapping
-        ├── GPO_Password_Policy
-        └── GPO_Application_Restrictions
+Configuration ordinateur > Paramètres Windows > Paramètres de sécurité > Stratégies de compte > Stratégie de mot de passe
 ```
 
-### GPO de sécurité essentielles
-```powershell
-# Création d'une GPO de sécurité
-New-GPO -Name "GPO_Security_Baseline" -Comment "Baseline de sécurité pour le domaine"
+- Mot de passe complexe : Activé  
+- Longueur minimale : 8 caractères  
+- Durée de vie maximale : 90 jours (modifiable)
 
-# Liaison à l'OU
-New-GPLink -Name "GPO_Security_Baseline" -Target "OU=Workstations,DC=hn,DC=gua,DC=local"
+---
+
+## GPO 2 – Wallpaper
+
+**Nom GPO** : `GPO_Wallpaper_Personnel`  
+**Lieu** : Configuration par défaut du domaine 
+
+**Chemin** :  
+```
+Configuration utilisateur > Stratégies > Modèles d'administration > Bureau > Bureau > Papier peint du bureau
 ```
 
-#### Politique de mot de passe (Default Domain Policy)
-```
-Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies de compte > Stratégie de mot de passe
+- Activer l’option  
+- Chemin : `\\SRV-DC-GUA\Downloads\wallpaper.jpg`  
+- Style : Ajuster
 
-- Appliquer l'historique des mots de passe : 12 mots de passe mémorisés
-- Âge maximal du mot de passe : 90 jours
-- Âge minimal du mot de passe : 1 jour
-- Longueur minimale du mot de passe : 8 caractères
-- Le mot de passe doit respecter des exigences de complexité : Activé
-- Stocker les mots de passe en utilisant un chiffrement réversible : Désactivé
-```
+---
 
-#### Politique de verrouillage de compte
-```
-Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies de compte > Stratégie de verrouillage du compte
+## GPO 3 – AutoLockNoGDT
 
-- Seuil de verrouillage du compte : 5 tentatives non valides
-- Durée de verrouillage du compte : 30 minutes
-- Remettre le compteur de verrouillages du compte à zéro après : 30 minutes
+**Nom GPO** : `GPO_AutoLock`  
+**Lieu** : OU globale, Groupe IT exclu
+
+**Chemin** :  
+```
+Configuration utilisateur > Modèles d’administration > Panneau de configuration > Personnalisation
 ```
 
-### GPO de mappage de lecteurs réseau
-```powershell
-# Création de la GPO de mappage de lecteurs
-New-GPO -Name "GPO_Drive_Mapping" -Comment "Mappage automatique des lecteurs réseau"
+- Activer l’écran de verrouillage après inactivité  
+- Délai : 600 secondes
 
-# Configuration via GPMC (exemple de paramètres)
-Configuration utilisateur > Préférences > Paramètres Windows > Mappages de lecteurs
-- Lecteur H: \\dc1.hn.gua.local\home$\%username%
-- Lecteur P: \\dc1.hn.gua.local\public$
-- Lecteur S: \\dc1.hn.gua.local\shared$
+---
+
+## Application et filtrage
+
+- Chaque GPO est liée au domaine en général
+- Le filtrage par groupe de sécurité est utilisé pour appliquer certaines GPO uniquement à `Médecins`, `Infirmiers`, ou `IT`
+
+- Vérification avec :  
+```cmd
+gpresult /r /scope:user
 ```
 
-### GPO de fond d'écran
-```
-Configuration utilisateur > Stratégies > Modèles d'administration > Bureau > Bureau
-- Papier peint du Bureau : \\dc1.hn.gua.local\sysvol\hn.gua.local\wallpaper\corporate_wallpaper.jpg
-- Style du papier peint du Bureau : Centré/Étendu/Ajusté
-```
-
-### GPO de restriction d'applications
-```
-Configuration utilisateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies de restriction logicielle
-
-Règles supplémentaires :
-- Interdire l'exécution de cmd.exe pour les utilisateurs standards
-- Bloquer l'accès au Gestionnaire des tâches
-- Restreindre l'accès au Panneau de configuration
-```
-
-### Vérification et maintenance des GPO
+## Vérification et maintenance des GPO
 ```powershell
 # Génération du rapport GPO
 Get-GPOReport -All -ReportType HTML -Path "C:\GPO_Reports\All_GPOs_Report.html"
@@ -232,8 +215,8 @@ Get-GPInheritance -Target "OU=Workstations,DC=hn,DC=gua,DC=local"
 Invoke-GPUpdate -Computer "dc1.hn.gua.local" -Force
 ```
 
-## 5. CONFIGURATION FIREWALL (NetFIREWALL)
-### ÉTAPE 1 : Configuration de Base Sécurisée
+# 5. CONFIGURATION FIREWALL (NetFIREWALL)
+## ÉTAPE 1 : Configuration de Base Sécurisée
 ```powershell
 # Principe du moindre privilège - Tout est bloqué par défaut
 Set-NetFirewallProfile -Profile Domain,Public,Private -DefaultInboundAction Block -DefaultOutboundAction Block
@@ -243,7 +226,7 @@ Write-Host "✅ Configuration restrictive appliquée - Conformité HIPAA"
 **Pourquoi cette étape ?**
 En environnement médical, la protection des données patients (ePHI) est cruciale. Le principe du "moindre privilège" impose de bloquer tout trafic non nécessaire.
 
-### ÉTAPE 2 : Services d'Authentification Active Directory
+## ÉTAPE 2 : Services d'Authentification Active Directory
 ```powershell
 # DNS - Résolution de noms (Port 53)
 New-NetFirewallRule -DisplayName "DNS TCP" -Direction Inbound -Protocol TCP -LocalPort 53 -Action Allow -Profile Domain
@@ -262,7 +245,7 @@ New-NetFirewallRule -DisplayName "LDAPS" -Direction Inbound -Protocol TCP -Local
 - **Kerberos** : Protocole d'authentification sécurisé d'Active Directory
 - **LDAP/LDAPS** : Accès à l'annuaire AD (LDAPS = version chiffrée)
 
-### ÉTAPE 3 : Sécurisation Réseau (Restriction Géographique)
+## ÉTAPE 3 : Sécurisation Réseau (Restriction Géographique)
 ```powershell
 # Restriction LDAP au réseau interne uniquement
 New-NetFirewallRule -DisplayName "LDAP Réseau Interne" -Direction Inbound -Protocol TCP -LocalPort 389 -RemoteAddress 192.168.10.0/24 -Action Allow -Profile Domain
@@ -274,7 +257,7 @@ New-NetFirewallRule -DisplayName "Blocage 172.16.x" -Direction Inbound -RemoteAd
 **Principe de défense en profondeur :**
 On limite l'accès aux services critiques au réseau interne uniquement. Cela protège contre les intrusions externes.
 
-### ÉTAPE 4 : Services Windows pour Active Directory
+## ÉTAPE 4 : Services Windows pour Active Directory
 ```powershell
 # RPC Endpoint Mapper (Port 135) - Communication AD
 New-NetFirewallRule -DisplayName "RPC Endpoint" -Direction Inbound -Protocol TCP -LocalPort 135 -Action Allow -Profile Domain
@@ -295,14 +278,14 @@ New-NetFirewallRule -DisplayName "Global Catalog SSL" -Direction Inbound -Protoc
 - **SMB** : Partage des politiques de groupe (GPO)
 - **Global Catalog** : Recherche dans toute la forêt AD (environnements multi-domaines)
 
-### ÉTAPE 5 : Administration Sécurisée
+## ÉTAPE 5 : Administration Sécurisée
 ```powershell
 # RDP limité à l'administrateur IT
 New-NetFirewallRule -DisplayName "RDP Admin" -Direction Inbound -Protocol TCP -LocalPort 3389 -RemoteAddress 192.168.10.100 -Action Allow -Profile Domain
 ```
 **Bonnes pratiques :** L'accès RDP est restreint à une seule machine d'administration pour limiter les risques.
 
-### ÉTAPE 6 : Trafic Sortant Autorisé
+## ÉTAPE 6 : Trafic Sortant Autorisé
 ```powershell
 # DNS sortant pour résolution externe
 New-NetFirewallRule -DisplayName "DNS Sortant" -Direction Outbound -Protocol UDP -RemotePort 53 -Action Allow
@@ -317,7 +300,7 @@ New-NetFirewallRule -DisplayName "NTP Sync" -Direction Outbound -Protocol UDP -R
 - Mises à jour de sécurité Windows essentielles
 - Synchronisation temporelle pour la traçabilité HIPAA
 
-### ÉTAPE 7 : Journalisation et Audit (Exigence HIPAA)
+## ÉTAPE 7 : Journalisation et Audit (Exigence HIPAA)
 ```powershell
 # Journalisation complète pour audit de conformité
 Set-NetFirewallProfile -Profile Domain,Public,Private -LogAllowed True -LogBlocked True -LogMaxSizeKilobytes 8192
@@ -330,7 +313,7 @@ Write-Host "✅ Audit configuré - Conformité HIPAA 164.312(b)"
 ```
 **Importance de l'audit :** HIPAA impose la traçabilité de tous les accès aux données patients.
 
-### ÉTAPE 8 : Sécurisation Préventive
+## ÉTAPE 8 : Sécurisation Préventive
 ```powershell
 # Blocage des protocoles non sécurisés
 New-NetFirewallRule -DisplayName "Blocage Telnet" -Direction Inbound -Protocol TCP -LocalPort 23 -Action Block
@@ -340,9 +323,9 @@ New-NetFirewallRule -DisplayName "Blocage SNMP" -Direction Inbound -Protocol UDP
 **Principe de sécurité :** Bloquer explicitement les protocoles dangereux (non chiffrés).
 
 
-## 6. MONITORING ET MAINTENANCE (PRODUCTION)
+# 6. MONITORING ET MAINTENANCE (PRODUCTION)
 
-### Surveillance en temps réel
+## Surveillance en temps réel
 ```powershell
 # Installation de System Center Operations Manager (SCOM) ou équivalent
 # Configuration des alertes critiques
@@ -362,9 +345,9 @@ $HealthCheck = @"
 dcdiag /v /c /d /e /s:dc1.hn.gua.local /f:C:\Logs\DCDiag_DC1.log
 dcdiag /v /c /d /e /s:dc2.hn.gua.local /f:C:\Logs\DCDiag_# Fiche Technique - Serveur Active Directory avec DNS, GPO et UFW
 
-## 1. INFORMATIONS GÉNÉRALES
+# 1. INFORMATIONS GÉNÉRALES
 
-### Spécifications du serveur (Production)
+## Spécifications du serveur (Production)
 - **Serveur Primaire** : dc1.hn.gua.local (192.168.10.1)
 - **Serveur Secondaire** : dc2.hn.gua.local (192.168.10.2) - **OBLIGATOIRE pour la production**
 - **Domaine AD** : hn.gua.local
@@ -382,15 +365,15 @@ dcdiag /v /c /d /e /s:dc2.hn.gua.local /f:C:\Logs\DCDiag_# Fiche Technique - Ser
   - Active Directory Certificate Services (ADCS) - **Recommandé pour la production**
 - **Sécurité réseau** : Windows Defender Firewall + Pare-feu périmétrique
 
-### Architecture réseau
+## Architecture réseau
 - **Réseau interne** : 192.168.10.0/24
 - **Passerelle** : 192.168.10.1 (le serveur lui-même)
 - **Serveur DNS primaire** : 192.168.10.1
 - **Serveur DNS secondaire** : 8.8.8.8 (fallback)
 
-## 2. CONFIGURATION ACTIVE DIRECTORY DOMAIN SERVICES
+# 2. CONFIGURATION ACTIVE DIRECTORY DOMAIN SERVICES
 
-### Installation et promotion (Production)
+## Installation et promotion (Production)
 ```powershell
 # Installation du rôle AD DS sur DC1 (Contrôleur principal)
 Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
@@ -422,7 +405,7 @@ Install-ADDSDomainController `
   -Force:$true
 ```
 
-### Haute disponibilité et redondance
+## Haute disponibilité et redondance
 ```powershell
 # Configuration du second DC comme serveur de catalogue global
 Set-ADDomainController -Identity "dc2.hn.gua.local" -GlobalCatalog $true
@@ -438,7 +421,7 @@ Get-ADReplicationConnection -Filter *
 repadmin /replsummary
 ```
 
-### Structure organisationnelle (Production)
+## Structure organisationnelle (Production)
 ```
 hn.gua.local
 ├── Builtin
@@ -477,7 +460,7 @@ hn.gua.local
         └── Applications
 ```
 
-### Paramètres du domaine (Production)
+## Paramètres du domaine (Production)
 - **Niveau fonctionnel du domaine** : Windows Server 2022 (dernier niveau)
 - **Niveau fonctionnel de la forêt** : Windows Server 2022 (dernier niveau)
 - **Mode de réplication** : DFSR (Distribution File System Replication) - **Obligatoire**
@@ -486,7 +469,7 @@ hn.gua.local
 - **Chiffrement** : Kerberos AES256, LDAPS obligatoire
 - **Audit** : Audit complet activé sur tous les objets critiques
 
-### Services critiques AD
+## Services critiques AD
 ```powershell
 # Vérification des services AD essentiels
 Get-Service | Where-Object {$_.Name -in @('ADWS','DNS','KDC','Netlogon','NTDS','W32Time')} | Format-Table Name,Status,StartType
@@ -500,9 +483,9 @@ Services requis :
 - **NTDS** (Active Directory Domain Services)
 - **W32Time** (Service de temps Windows)
 
-## 3. CONFIGURATION DNS
+# 3. CONFIGURATION DNS
 
-### Zones DNS principales
+## Zones DNS principales
 ```powershell
 # Zone de recherche directe
 Add-DnsServerPrimaryZone -Name "hn.gua.local" -ZoneFile "hn.gua.local.dns"
@@ -511,7 +494,7 @@ Add-DnsServerPrimaryZone -Name "hn.gua.local" -ZoneFile "hn.gua.local.dns"
 Add-DnsServerPrimaryZone -NetworkID "192.168.10.0/24" -ZoneFile "10.168.192.in-addr.arpa.dns"
 ```
 
-### Enregistrements DNS critiques
+## Enregistrements DNS critiques
 ```
 # Enregistrements SRV requis pour AD
 _ldap._tcp.hn.gua.local.        SRV 0 100 389 dc1.hn.gua.local.
@@ -527,7 +510,7 @@ hn.gua.local.                   A   192.168.10.1
 1.10.168.192.in-addr.arpa.      PTR dc1.hn.gua.local.
 ```
 
-### Configuration DNS avancée (Production)
+## Configuration DNS avancée (Production)
 ```powershell
 # Activation de la mise à jour dynamique sécurisée UNIQUEMENT
 Set-DnsServerPrimaryZone -Name "hn.gua.local" -DynamicUpdate "Secure"
@@ -550,7 +533,7 @@ Set-DnsServerDoh -ServerCertificate $cert -Enable $true
 Set-DnsServerDiagnostics -All $true
 ```
 
-### Vérification DNS
+## Vérification DNS
 ```powershell
 # Test de résolution DNS
 nslookup hn.gua.local 192.168.10.1
@@ -560,9 +543,9 @@ nslookup dc1.hn.gua.local 192.168.10.1
 nslookup -type=SRV _ldap._tcp.hn.gua.local 192.168.10.1
 ```
 
-## 4. CONFIGURATION GROUP POLICY OBJECTS (GPO)
+# 4. CONFIGURATION GROUP POLICY OBJECTS (GPO)
 
-### Structure GPO recommandée (Production)
+## Structure GPO recommandée (Production)
 ```
 Group Policy Objects
 ├── Default Domain Policy (modifiée avec soin)
@@ -593,7 +576,7 @@ Group Policy Objects
         └── GPO_Screen_Lock_Policy
 ```
 
-### GPO de sécurité essentielles
+## GPO de sécurité essentielles
 ```powershell
 # Création d'une GPO de sécurité
 New-GPO -Name "GPO_Security_Baseline" -Comment "Baseline de sécurité pour le domaine"
@@ -602,7 +585,7 @@ New-GPO -Name "GPO_Security_Baseline" -Comment "Baseline de sécurité pour le d
 New-GPLink -Name "GPO_Security_Baseline" -Target "OU=Workstations,DC=hn,DC=gua,DC=local"
 ```
 
-#### Politique de mot de passe renforcée (Production)
+## Politique de mot de passe renforcée (Production)
 ```
 Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies de compte > Stratégie de mot de passe
 
@@ -628,7 +611,7 @@ Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de s�
 
 ![Capture d'écran 2025-04-11 170211](https://github.com/user-attachments/assets/c5560397-6fe0-444e-b4ee-7fd541b98c97)
 
-#### Politique de verrouillage de compte renforcée
+## Politique de verrouillage de compte renforcée
 ```
 Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies de compte > Stratégie de verrouillage du compte
 
@@ -637,7 +620,7 @@ Configuration ordinateur > Stratégies > Paramètres Windows > Paramètres de s�
 - Remettre le compteur de verrouillages du compte à zéro après : 60 minutes
 ```
 
-#### GPO de sécurité avancée (Compliance)
+## GPO de sécurité avancée (Compliance)
 ```powershell
 # Création d'une GPO de sécurité renforcée
 New-GPO -Name "GPO_Security_Baseline_Production" -Comment "Baseline de sécurité production - Compliance SOX/HIPAA"
@@ -655,7 +638,7 @@ Audit des événements critiques :
 - Audit des événements système : Réussite et Échec
 ```
 
-### GPO de mappage de lecteurs réseau
+## GPO de mappage de lecteurs réseau
 ```powershell
 # Création de la GPO de mappage de lecteurs
 New-GPO -Name "GPO_Drive_Mapping" -Comment "Mappage automatique des lecteurs réseau"
@@ -667,14 +650,14 @@ Configuration utilisateur > Préférences > Paramètres Windows > Mappages de le
 - Lecteur S: \\dc1.hn.gua.local\shared$
 ```
 
-### GPO de fond d'écran
+## GPO de fond d'écran
 ```
 Configuration utilisateur > Stratégies > Modèles d'administration > Bureau > Bureau
 - Papier peint du Bureau : \\dc1.hn.gua.local\sysvol\hn.gua.local\wallpaper\corporate_wallpaper.jpg
 - Style du papier peint du Bureau : Centré/Étendu/Ajusté
 ```
 
-### GPO de restriction d'applications
+## GPO de restriction d'applications
 ```
 Configuration utilisateur > Stratégies > Paramètres Windows > Paramètres de sécurité > Stratégies de restriction logicielle
 
@@ -684,7 +667,7 @@ Règles supplémentaires :
 - Restreindre l'accès au Panneau de configuration
 ```
 
-### Vérification et maintenance des GPO
+## Vérification et maintenance des GPO
 ```powershell
 # Génération du rapport GPO
 Get-GPOReport -All -ReportType HTML -Path "C:\GPO_Reports\All_GPOs_Report.html"
@@ -696,9 +679,9 @@ Get-GPInheritance -Target "OU=Workstations,DC=hn,DC=gua,DC=local"
 Invoke-GPUpdate -Computer "dc1.hn.gua.local" -Force
 ```
 
-## 5. CONFIGURATION PARE-FEU WINDOWS (PRODUCTION)
+# 5. CONFIGURATION PARE-FEU WINDOWS (PRODUCTION)
 
-### Configuration Windows Defender Firewall
+## Configuration Windows Defender Firewall
 ```powershell
 # Activation du pare-feu sur tous les profils
 Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True
@@ -711,7 +694,7 @@ Set-NetFirewallProfile -Profile Domain,Public,Private -DefaultOutboundAction All
 Set-NetFirewallProfile -Profile Domain,Public,Private -LogAllowed True -LogBlocked True -LogMaxSizeKilobytes 32767
 ```
 
-### Règles de pare-feu pour Active Directory (Production)
+## Règles de pare-feu pour Active Directory (Production)
 ```powershell
 # Ports essentiels pour AD DS - Règles entrantes
 New-NetFirewallRule -DisplayName "AD-DNS-TCP-In" -Direction Inbound -Protocol TCP -LocalPort 53 -Action Allow -Profile Domain
@@ -741,7 +724,7 @@ Set-NetFirewallRule -DisplayName "AD-LDAP-TCP-In" -RemoteAddress 192.168.10.0/24
 Set-NetFirewallRule -DisplayName "AD-SMB-In" -RemoteAddress 192.168.10.0/24,192.168.20.0/24
 ```
 
-### Règles sortantes restrictives (Production)
+## Règles sortantes restrictives (Production)
 ```powershell
 # Blocage par défaut des connexions sortantes non autorisées
 Set-NetFirewallProfile -Profile Domain -DefaultOutboundAction Block
@@ -758,7 +741,7 @@ New-NetFirewallRule -DisplayName "Kerberos-Out" -Direction Outbound -Protocol TC
 New-NetFirewallRule -DisplayName "Block-Internet-Outbound" -Direction Outbound -RemoteAddress Internet -Action Block -Profile Domain
 ```
 
-### Configuration avancée de sécurité
+## Configuration avancée de sécurité
 ```powershell
 # Activation de la protection contre les attaques par déni de service
 netsh advfirewall set global statefulftp disable
@@ -769,9 +752,9 @@ auditpol /set /subcategory:"Filtering Platform Connection" /success:enable /fail
 auditpol /set /subcategory:"Filtering Platform Packet Drop" /success:disable /failure:enable
 ```
 
-## 6. MONITORING ET MAINTENANCE
+# 6. MONITORING ET MAINTENANCE
 
-### Scripts de surveillance automatisée (Production)
+## Scripts de surveillance automatisée (Production)
 ```powershell
 # Script de surveillance complet AD (à exécuter toutes les heures)
 $HealthCheck = @"
@@ -807,7 +790,7 @@ Get-Counter "\Processor(_Total)\% Processor Time"
 Register-ScheduledTask -TaskName "AD-Health-Monitor" -Trigger (New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Hours 1)) -Action (New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-File C:\Scripts\AD-Health-Monitor.ps1")
 ```
 
-### Sauvegarde et restauration (Production)
+## Sauvegarde et restauration (Production)
 ```powershell
 # Sauvegarde système complète quotidienne (obligatoire)
 # Configuration Windows Server Backup pour sauvegarde automatique
@@ -854,7 +837,7 @@ Register-ScheduledTask -TaskName "AD-Daily-Backup" -Trigger (New-ScheduledTaskTr
 # Documentation de procédure de restauration complète disponible dans le plan de reprise d'activité
 ```
 
-### Surveillance des journaux (Production)
+## Surveillance des journaux (Production)
 ```powershell
 # Configuration de la collecte centralisée des logs (SIEM)
 # Integration avec Windows Event Forwarding (WEF)
@@ -892,9 +875,9 @@ wevtutil set-log "Directory Service" /retention:true /maxsize:1073741824
 wevtutil set-log "Security" /retention:true /maxsize:2147483648
 ```
 
-## 7. DÉPANNAGE ET TROUBLESHOOTING
+# 7. DÉPANNAGE ET TROUBLESHOOTING
 
-### Commandes de diagnostic
+## Commandes de diagnostic
 ```powershell
 # Test de connectivité réseau
 Test-NetConnection -ComputerName dc1.hn.gua.local -Port 389
@@ -908,15 +891,15 @@ Resolve-DnsName hn.gua.local
 Resolve-DnsName _ldap._tcp.hn.gua.local -Type SRV
 ```
 
-### Résolution des problèmes courants
+## Résolution des problèmes courants
 1. **Problèmes de réplication AD** : Vérifier la connectivité réseau et les ports ouverts
 2. **Erreurs DNS** : Contrôler les enregistrements SRV et la configuration des redirecteurs
 3. **Problèmes GPO** : Vérifier les liens GPO et forcer la mise à jour
 4. **Authentification Kerberos** : Synchroniser l'heure entre le serveur et les clients
 
-## 8. SÉCURITÉ ET CONFORMITÉ (PRODUCTION)
+# 8. SÉCURITÉ ET CONFORMITÉ (PRODUCTION)
 
-### Durcissement du serveur AD (Security Hardening)
+## Durcissement du serveur AD (Security Hardening)
 ```powershell
 # Désactivation des services non critiques
 $ServicesToDisable = @(
@@ -953,7 +936,7 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" -Name "Restr
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa" -Name "RestrictAnonymousSAM" -Value 1
 ```
 
-### Compliance et audit (SOX, HIPAA, ISO 27001)
+## Compliance et audit (SOX, HIPAA, ISO 27001)
 ```powershell
 # Configuration de l'audit complet pour compliance réglementaire
 $AuditCategories = @(
@@ -993,7 +976,7 @@ foreach ($Group in $PrivilegedGroups) {
 }
 ```
 
-### Protection contre les attaques avancées
+## Protection contre les attaques avancées
 ```powershell
 # Installation et configuration de Microsoft Defender pour Identity
 # (Anciennement Azure ATP)
@@ -1015,7 +998,7 @@ $DCPermissions = Get-Acl "AD:\DC=hn,DC=gua,DC=local"
 # Restriction des permissions de réplication aux seuls comptes autorisés
 ```
 
-### Gestion des certificats et PKI
+## Gestion des certificats et PKI
 ```powershell
 # Installation d'Active Directory Certificate Services (Production)
 Install-WindowsFeature -Name ADCS-Cert-Authority -IncludeManagementTools
@@ -1024,9 +1007,9 @@ Install-AdcsCertificationAuthority -CAType EnterpriseRootCA -CryptoProviderName 
 # Configuration des templates de certificats pour LDAPS, Kerberos, etc.
 ```
 
-## 9. PERFORMANCES ET OPTIMISATION (PRODUCTION)
+# 9. PERFORMANCES ET OPTIMISATION (PRODUCTION)
 
-### Optimisation matérielle et système
+## Optimisation matérielle et système
 ```powershell
 # Configuration des performances AD optimales
 # Placement des fichiers de base de données sur disques séparés
@@ -1047,7 +1030,7 @@ Set-DnsServerCache -MaxKBSize 0 -MaxNegativeTtl 00:15:00 -MaxTtl 1.00:00:00
 Set-DnsServerResponseRateLimiting -Mode Enable -ResponsesPerSec 10 -ErrorsPerSec 5
 ```
 
-### Surveillance des performances critiques
+## Surveillance des performances critiques
 ```powershell
 # Script de monitoring des performances AD (exécution continue)
 $PerformanceCounters = @(
@@ -1084,7 +1067,7 @@ $Thresholds = @{
 # Génération d'alertes automatiques si seuils dépassés
 ```
 
-### Métriques de performance cibles (Production)
+## Métriques de performance cibles (Production)
 - **Utilisation CPU** : < 70% en moyenne (pics < 90%)
 - **Mémoire disponible** : > 2 Go en permanence  
 - **Temps de réponse LDAP** : < 50ms (95e percentile)
@@ -1094,7 +1077,7 @@ $Thresholds = @{
 - **Espace disque libre** : > 20% sur toutes les partitions
 - **Queue Length disque** : < 2 en moyenne
 
-### Optimisation de la réplication AD
+## Optimisation de la réplication AD
 ```powershell
 # Configuration de la topologie de réplication optimisée
 # Création de sites AD pour optimiser le trafic réseau
@@ -1111,7 +1094,7 @@ Set-ADReplicationSiteLink -Identity "Principal-Secondaire" -ReplicationFrequency
 Set-ADReplicationConnection -Identity "ConnexionReplication" -ReplicateFromDirectoryServer "dc1.hn.gua.local"
 ```
 
-### Maintenance préventive
+## Maintenance préventive
 ```powershell
 # Script de maintenance hebdomadaire AD
 $MaintenanceScript = @"
@@ -1138,9 +1121,9 @@ ldifde -f C:\Temp\AD_Export.ldif -d "DC=hn,DC=gua,DC=local"
 Register-ScheduledTask -TaskName "AD-Weekly-Maintenance" -Trigger (New-ScheduledTaskTrigger -Weekly -WeeksInterval 1 -DaysOfWeek Sunday -At "03:00") -Action (New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-File C:\Scripts\AD-Maintenance.ps1")
 ```
 
-## 10. PLAN DE CONTINUITÉ D'ACTIVITÉ (PCA)
+# 10. PLAN DE CONTINUITÉ D'ACTIVITÉ (PCA)
 
-### Stratégie de haute disponibilité
+## Stratégie de haute disponibilité
 ```powershell
 # Configuration du clustering Windows Server (si applicable)
 # Installation du rôle Failover Clustering
@@ -1176,7 +1159,7 @@ if ($FailedDCs.Count -gt 0) {
 "@
 ```
 
-### Procédures de sauvegarde stratégiques
+## Procédures de sauvegarde stratégiques
 ```powershell
 # Sauvegarde multi-sites avec réplication géographique
 $BackupStrategy = @"
@@ -1201,7 +1184,7 @@ $TestRestore = {
 "@
 ```
 
-### Plan de reprise d'activité (PRA)
+## Plan de reprise d'activité (PRA)
 ```powershell
 # Procédures de récupération d'urgence (RTO: 4h, RPO: 1h)
 
@@ -1229,9 +1212,9 @@ $DatabaseRecoveryProcedure = @"
 "@
 ```
 
-## 11. PROCÉDURES D'INCIDENT ET ESCALADE
+# 11. PROCÉDURES D'INCIDENT ET ESCALADE
 
-### Classification des incidents
+## Classification des incidents
 ```
 CRITIQUE (P1) - RTO: 1h
 - Panne complète des services d'authentification
@@ -1254,7 +1237,7 @@ INFORMATIF (P4) - RTO: 24h
 - Mises à jour non critiques
 ```
 
-### Contacts d'escalade
+## Contacts d'escalade
 ```
 Niveau 1: Équipe Support (24/7)
 - Email: support@hn.gua.local
@@ -1273,9 +1256,9 @@ Direction IT (incidents critiques uniquement)
 - Téléphone: +33 6 XX XX XX XX
 ```
 
-## 12. DOCUMENTATION COMPLÉMENTAIRE
+# 12. DOCUMENTATION COMPLÉMENTAIRE
 
-### Documents de référence requis
+## Documents de référence requis
 - Plan de reprise d'activité (PRA) détaillé
 - Procédures de sauvegarde et restauration complètes  
 - Guide de durcissement sécuritaire AD
@@ -1285,7 +1268,7 @@ Direction IT (incidents critiques uniquement)
 - Procédures de gestion des correctifs
 - Guide d'administration quotidienne
 
-### Formation et certification requises
+## Formation et certification requises
 - Certification Microsoft AD/Azure AD pour les administrateurs
 - Formation sécurité IT (ISO 27001, CISSP)
 - Habilitation sécuritaire selon le niveau de classification
