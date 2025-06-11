@@ -1,5 +1,3 @@
-# Fiche Technique - Serveur Active Directory avec DNS, GPO et UFW
-
 ## 1. INFORMATIONS GÉNÉRALES
 
 ### Spécifications du serveur
